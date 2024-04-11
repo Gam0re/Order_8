@@ -2,7 +2,6 @@ from aiogram import types, Router, F
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
-from aiogram.methods.send_message import SendMessage
 
 import bot_template.keyboards.reply as kb
 import bot_template.states.user as user_states

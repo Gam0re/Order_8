@@ -1,10 +1,11 @@
 import asyncio
-from bot_template.data.config import BOT_TOKEN
+from data.config import BOT_TOKEN
 
 from aiogram import Bot, Dispatcher
 
-from bot_template.handlers.common import router
-from bot_template.handlers.help_cmd import help_router
+from handlers.common import router
+from handlers.help_cmd import help_router
+from keyboards.set_menu import set_main_menu
 
 
 async def main():
@@ -12,6 +13,7 @@ async def main():
     dp = Dispatcher()
     dp.include_router(router)
     dp.include_router(help_router)
+    await set_main_menu(bot)
     await dp.start_polling(bot)
 
 
