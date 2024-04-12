@@ -6,8 +6,10 @@ engine = create_async_engine(url='sqlite+aiosqlite:///db.sqlite3')
 
 async_session = async_sessionmaker(engine)
 
+
 class Base(AsyncAttrs, DeclarativeBase):
     pass
+
 
 class User(Base):
     __tablename__ = 'users'
@@ -17,6 +19,7 @@ class User(Base):
     tg_id: Mapped[int] = mapped_column(BigInteger)
     name: Mapped[str] = mapped_column(String(100), nullable=True)
     phone: Mapped[int] = mapped_column(nullable=True)
+
 
 async def async_main():
     async with engine.begin() as conn:
