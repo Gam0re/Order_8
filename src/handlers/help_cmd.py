@@ -3,9 +3,9 @@ from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
 
-import bot_template.keyboards.default.reply as kb
-import bot_template.states.user as user_states
-from bot_template.data.config import SUPPORT_ID
+import src.keyboards.default.reply as kb
+import src.states.user as user_states
+from src.data.config import SUPPORT_ID
 
 help_router = Router()
 

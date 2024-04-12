@@ -1,12 +1,12 @@
 import asyncio
-from data.config import BOT_TOKEN
+from src.data.config import BOT_TOKEN
 
 from aiogram import Bot, Dispatcher
 
-from handlers.common import router
-from handlers.help_cmd import help_router
-from keyboards.set_menu import set_main_menu
-from database.models import async_main
+from src.handlers.common import router
+from src.handlers.help_cmd import help_router
+from src.keyboards.set_menu import set_main_menu
+from src.database.models import async_main
 
 
 async def main():

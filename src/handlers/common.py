@@ -2,8 +2,8 @@ from aiogram import types, Router, F
 
 from aiogram.filters import CommandStart
 
-import bot_template.keyboards.default.reply as kb
-import bot_template.database.requests as rq
+import src.keyboards.default.reply as kb
+import src.database.requests as rq
 
 router = Router()
 
