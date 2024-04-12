@@ -1,4 +1,4 @@
-from models import async_session, User
+from bot_template.database.models import async_session, User
 from sqlalchemy import select
 
 

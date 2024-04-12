@@ -4,6 +4,7 @@ from aiogram.filters import CommandStart
 
 import bot_template.keyboards.default.reply as kb
 import bot_template.database.requests as rq
+
 router = Router()
 
 
