@@ -3,7 +3,7 @@ from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
 
-import bot_template.keyboards.reply as kb
+import bot_template.keyboards.default.reply as kb
 import bot_template.states.user as user_states
 from bot_template.data.config import SUPPORT_ID
 
