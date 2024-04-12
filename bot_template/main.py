@@ -11,7 +11,7 @@ from database.models import async_main
 
 async def main():
     await async_main()
-    bot = Bot(token="6626161631:AAH9Nro2O1J2SYb8mIUsX67WG2QviCDyAS4")
+    bot = Bot(token=BOT_TOKEN)
     dp = Dispatcher()
     dp.include_router(router)
     dp.include_router(help_router)
