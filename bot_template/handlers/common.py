@@ -1,13 +1,15 @@
-from aiogram import types, Router
+from aiogram import types, Router, F
 
 from aiogram.filters import CommandStart
 
-import keyboards.reply as kb
-import database.requests as rq
+import bot_template.keyboards.default.reply as kb
+import bot_template.database.requests as rq
 router = Router()
 
-#команда старт
+
+# команда старт
 @router.message(CommandStart())
+@router.message(F.text == 'Главное меню')
 async def start(message: types.Message):
     await rq.set_user(message.from_user.id)
     await message.answer("Вас приветствует интернет магазин кондиционеров", reply_markup=kb.start)
