@@ -14,7 +14,7 @@ DB_NAME = env('DB_NAME')
 
 
 def database_url_asyncpg(DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME):
-    return f"postgresql+asyncpg:///{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    return f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 
-database_url = database_url_asyncpg(DB_HOST, DB_PORT, DB_USER, DB_PASS, DB_NAME)
+database_url = database_url_asyncpg(DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME)
