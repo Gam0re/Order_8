@@ -2,6 +2,8 @@ from src.database.models import async_session, User
 from sqlalchemy import select
 
 
+
+
 async def set_user(tg_id):
     async with async_session() as session:
         user = await session.scalar(select(User).where(User.tg_id == tg_id))
@@ -9,3 +11,16 @@ async def set_user(tg_id):
         if not user:
             session.add(User(tg_id=tg_id))
             await session.commit()
+
+
+async def get_name(tg_id):
+    async with async_session() as session:
+        name = await session.scalar(select(User.name).where(User.tg_id == tg_id))
+    return name
+
+async def get_number(tg_id):
+    async with async_session() as session:
+        phone = await session.scalar(select(User.phone).where(User.tg_id == tg_id))
+    return phone
+
+

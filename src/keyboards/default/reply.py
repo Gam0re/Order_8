@@ -15,3 +15,7 @@ help_kb = ReplyKeyboardMarkup(keyboard=[
 back_kb = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text='Назад')],
 ], resize_keyboard=True, one_time_keyboard=True)
+
+settings_kb = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text='Имя'), KeyboardButton(text='Номер')],
+                                            [KeyboardButton(text='Главное меню')]],
+                                  resize_keyboard=True, one_time_keyboard=True)
