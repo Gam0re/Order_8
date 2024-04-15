@@ -1,15 +1,16 @@
 from sqlalchemy import BigInteger, String
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
 from src.data.config import database_url
 import pandas as pd
-engine = create_async_engine(url=database_url, echo=True)
+import csv
 
+engine = create_async_engine(url=database_url, echo=True)
 async_session = async_sessionmaker(engine)
 
 
 class Base(AsyncAttrs, DeclarativeBase):
-    __allow_unmapped__ = True
+    pass
 
 
 class User(Base):
@@ -34,32 +35,33 @@ class Catalog(Base):
     level_4: Mapped[str] = mapped_column(String(100), nullable=True)
     level_5: Mapped[str] = mapped_column(String(100), nullable=True)
 
+
 async def async_main():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
-        session = sessionmaker()
-        session.configure(bind=engine)
-        s = session()
-        try:
-            with open('severcon_export.csv', 'r') as file:
-                data = pd.read_csv(file)
 
-                for i in data:
-                    record = Catalog(**{
-                        'cond_id' : i[0],
-                        'name' : i[1],
-                        'image' : i[3],
-                        'level_1' : i[4],
-                        'level_2' : i[5],
-                        'level_3' : i[6],
-                        'level_4' : i[7],
-                        'level_5' : i[8]
-                    })
-                    s.add(record) #Add all the records
+    with open(r'database\severcon_export.csv') as file:
+        reader = csv.reader(file, delimiter='\t')
+        header = list(next(reader))
+        all_products = []
 
-            s.commit() #Attempt to commit all the records
-        except:
-            s.rollback() #Rollback the changes on error
-        finally:
-            s.close() #Close the connection
+        for row in reader:
+            new_line = {k: v for k, v in zip(header, row)}
+            all_products.append(new_line)
+        df = pd.DataFrame(all_products)
+
+        async with async_session() as session:
+            for index, row in df.iterrows():
+                record = Catalog(**{
+                    'cond_id': int(row[0]),
+                    'name': row[1],
+                    'image': row[3],
+                    'level_1': row[4],
+                    'level_2': row[5],
+                    'level_3': row[6],
+                    'level_4': row[7],
+                    'level_5': row[8]
+                })
+                session.add(record)
+            await session.commit()

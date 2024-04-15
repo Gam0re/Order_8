@@ -9,6 +9,7 @@ from src.keyboards.set_menu import set_main_menu
 from src.database.models import async_main
 from src.handlers.catalog import catalog_router
 
+
 async def main():
     await async_main()
     bot = Bot(token=BOT_TOKEN)
