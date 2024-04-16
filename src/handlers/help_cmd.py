@@ -28,8 +28,9 @@ help_text = """
 @help_router.message(Command(commands='help'))
 @help_router.message(F.text == 'Помощь')
 @help_router.message(F.text == 'Назад')
-async def help_cmd(message: types.Message):
+async def help_cmd(message: types.Message, state: FSMContext):
     await message.answer(help_text, reply_markup=kb.help_kb)
+    await state.set_state(default_state)
 
 
 @help_router.message(F.text == 'Позвонить', StateFilter(default_state))
