@@ -46,3 +46,4 @@ async def get_models(model_name):
         print(query.compile(compile_kwargs={'literal_binds': True}))
         res = await session.execute(query)
         result = res.all()
+        print(result)
