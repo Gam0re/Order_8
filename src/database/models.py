@@ -1,5 +1,4 @@
 from sqlalchemy import BigInteger, String, ForeignKey
-from sqlalchemy import insert, update
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
 from src.data.config import database_url
@@ -18,6 +17,7 @@ class Base(AsyncAttrs, DeclarativeBase):
 class User(Base):
     __tablename__ = 'users'
 
+    __allow_unmapped__ = True
     id: Mapped[int] = mapped_column(primary_key=True)
     tg_id: Mapped[int] = mapped_column(BigInteger)
     name: Mapped[str] = mapped_column(String(50), nullable=True)

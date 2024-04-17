@@ -47,3 +47,30 @@ async def get_models(model_name):
         res = await session.execute(query)
         result = res.all()
         print(result)
+async def get_level_1():
+    async with async_session() as session:
+        return await session.scalars(select(Catalog.level_1))
+
+async def get_level_2():
+    async with async_session() as session:
+        return await session.scalars(select(Catalog.level_2))
+
+async def get_level_3(level_2):
+    async with async_session() as session:
+        return await session.scalars(select(Catalog.level_3).where(Catalog.level_2 == level_2))
+
+async def get_level_4(level_2, level_3):
+    async with async_session() as session:
+        return await session.scalars(select(Catalog.level_4).where(Catalog.level_2 == level_2 and Catalog.level_3 == level_3))
+
+async def get_level_5(level_2, level_3, level_4):
+    async with async_session() as session:
+        return await session.scalars(select(Catalog.level_5).where(Catalog.level_2 == level_2 and Catalog.level_3 == level_3 and Catalog.level_4 == level_4))
+
+async def get_names(level_2, level_3, level_4, level_5):
+    async with async_session() as session:
+        return await session.scalars(select(Catalog.name).where(Catalog.level_5 == level_5 and Catalog.level_4 == level_4))
+
+async def get_item(name):
+    async with async_session() as session:
+        return await session.scalar(select(Catalog.image).where(Catalog.name == name))

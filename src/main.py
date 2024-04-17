@@ -7,9 +7,9 @@ from src.handlers.common import router
 from src.handlers.help_cmd import help_router
 from src.handlers.settings import settings_router
 from src.handlers.registration import registration_router
-from src.handlers.catalog import catalog_router
 from src.keyboards.set_menu import set_main_menu
 from src.database.models import async_main
+from src.handlers.catalog import catalog_router
 
 
 async def main():
