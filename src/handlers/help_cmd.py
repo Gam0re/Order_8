@@ -6,6 +6,7 @@ from aiogram.fsm.state import default_state
 import src.keyboards.default.reply as kb
 import src.states.user as user_states
 from src.data.config import SUPPORT_ID
+from src.bot import bot
 
 help_router = Router()
 
@@ -48,7 +49,7 @@ async def help_cmd(message: types.Message, state: FSMContext):
 async def help_cmd(message: types.Message, state: FSMContext):
     await message.answer('Ваше сообщение отправлено', reply_markup=kb.help_kb)
 
-    await message.send_copy(chat_id=SUPPORT_ID)
+    await bot.send_message(SUPPORT_ID, f"Новое сообщение от пользователя @{message.from_user.username}: {message.text}")
     await state.set_state(default_state)
 
 

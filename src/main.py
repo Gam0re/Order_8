@@ -1,8 +1,5 @@
 import asyncio
-from src.data.config import BOT_TOKEN
-
-from aiogram import Bot, Dispatcher
-
+from bot import bot, dp
 from src.handlers.common import router
 from src.handlers.help_cmd import help_router
 from src.handlers.settings import settings_router
@@ -14,8 +11,6 @@ from src.database.models import async_main
 
 async def main():
     await async_main()
-    bot = Bot(token=BOT_TOKEN)
-    dp = Dispatcher()
     dp.include_router(router)
     dp.include_router(help_router)
     dp.include_router(settings_router)
