@@ -19,9 +19,6 @@ back_kb = ReplyKeyboardMarkup(keyboard=[
 settings_kb = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text='Имя'), KeyboardButton(text='Номер')],
                                             [KeyboardButton(text='Главное меню')]],
                                   resize_keyboard=True, one_time_keyboard=True)
-settings_back_kb = ReplyKeyboardMarkup(keyboard=[
-    [KeyboardButton(text='назад')],
-], resize_keyboard=True, one_time_keyboard=True)
 
 companys_Inkb = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='ENERGOLUX', callback_data='energolux_btn'), InlineKeyboardButton(text='TOSHIBA', callback_data='toshiba_btn')],

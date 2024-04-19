@@ -28,18 +28,18 @@ help_text = """
 
 @help_router.message(Command(commands='help'))
 @help_router.message(F.text == 'Помощь')
-@help_router.message(F.text == 'Назад')
+@help_router.message(F.text == 'Назад', StateFilter(user_states.UserFSM.write_message))
 async def help_cmd(message: types.Message, state: FSMContext):
     await message.answer(help_text, reply_markup=kb.help_kb)
-    await state.set_state(default_state)
+    await state.set_state(user_states.UserFSM.help_menu)
 
 
-@help_router.message(F.text == 'Позвонить', StateFilter(default_state))
+@help_router.message(F.text == 'Позвонить', StateFilter(user_states.UserFSM.help_menu))
 async def help_cmd(message: types.Message):
     await message.answer('Телефон горячей линии: +7xxxxxxxxxx', reply_markup=kb.help_kb)
 
 
-@help_router.message(F.text == 'Написать', StateFilter(default_state))
+@help_router.message(F.text == 'Написать', StateFilter(user_states.UserFSM.help_menu))
 async def help_cmd(message: types.Message, state: FSMContext):
     await message.answer('Напишите ваше сообщение:', reply_markup=kb.back_kb)
     await state.set_state(user_states.UserFSM.write_message)
@@ -50,9 +50,9 @@ async def help_cmd(message: types.Message, state: FSMContext):
     await message.answer('Ваше сообщение отправлено', reply_markup=kb.help_kb)
 
     await bot.send_message(SUPPORT_ID, f"Новое сообщение от пользователя @{message.from_user.username}: {message.text}")
-    await state.set_state(default_state)
+    await state.set_state(user_states.UserFSM.help_menu)
 
 
-@help_router.message(F.text == 'Помощь на сайте', StateFilter(default_state))
+@help_router.message(F.text == 'Помощь на сайте', StateFilter(user_states.UserFSM.help_menu))
 async def help_cmd(message: types.Message):
     await message.answer('Подробная справка на сайте: <ссылка>', reply_markup=kb.help_kb)
