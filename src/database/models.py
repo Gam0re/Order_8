@@ -1,4 +1,4 @@
-from sqlalchemy import BigInteger, String, ForeignKey
+from sqlalchemy import BigInteger, String, ForeignKey, Integer
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
 from src.data.config import database_url
@@ -36,11 +36,19 @@ class Catalog(Base):
     level_3: Mapped[str] = mapped_column(String(100), nullable=True)
     level_4: Mapped[str] = mapped_column(String(100), nullable=True)
     level_5: Mapped[str] = mapped_column(String(100), nullable=True)
+    group_id: Mapped[int] = mapped_column(BigInteger, nullable=True)
+
+class Groups(Base):
+    __tablename__ = 'groups'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    description: Mapped[str] = mapped_column(String(200), nullable=True)
+    super_group_id: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    level: Mapped[int] = mapped_column(Integer, nullable=True)
 
 
-async def async_main():
+"""async def async_main():
     async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
 
     with open(r'database\severcon_export.csv') as file:
@@ -67,7 +75,7 @@ async def async_main():
                 })
                 session.add(record)
             await session.commit()
-
+"""
 
 
 

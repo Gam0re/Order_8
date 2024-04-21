@@ -1,7 +1,9 @@
-from src.database.models import async_session, User, Catalog
+from src.database.models import async_session, User, Catalog, Groups
 from sqlalchemy import select, func, cast, or_
 import re
 
+from aiogram_dialog import DialogManager
+import src.states.dialog as dialog_states
 
 
 async def set_user(tg_id):
@@ -34,43 +36,88 @@ async def get_number(tg_id):
         phone = await session.scalar(select(User.phone).where(User.tg_id == tg_id))
     return phone
 
+async def get_lvl(id):
+    async with async_session() as session:
+        lvl = await session.scalar(select(Groups.level).where(Groups.id == id))
+    return lvl
 
-async def get_models(model_name):
+async def is_this_last_lvl(id):
     async with async_session() as session:
-        query = (
-            select(
-                Catalog
-            )
-            .filter(or_(Catalog.name.contains(model_name)))
-        )
-        print(query.compile(compile_kwargs={'literal_binds': True}))
-        res = await session.execute(query)
-        result = res.all()
-        print(result)
-async def get_level_1():
-    async with async_session() as session:
-        return await session.scalars(select(Catalog.level_1))
+        result = await session.scalar(select(Groups.id).where(Groups.super_group_id==id))
+    return not result
 
-async def get_level_2():
+async def get_categories(dialog_manager: DialogManager, **middleware_data):
     async with async_session() as session:
-        return await session.scalars(select(Catalog.level_2))
+        try:
+            categories = dialog_manager.current_context().dialog_data.pop('categories')
+            data = categories
+        except:
+            is_it_back = dialog_manager.current_context().dialog_data.get('is_it_back')
+            is_from_product = dialog_manager.current_context().dialog_data.get('is_from_product')
+            id = dialog_manager.current_context().dialog_data.get('item_id')
+            group_id = await session.scalar(select(Groups.super_group_id).where(Groups.id == id))
+            super_group_id = await session.scalar(select(Groups.super_group_id).where(Groups.id == group_id))
+            if is_from_product:
+                stmt = select(Groups).filter(Groups.super_group_id == super_group_id)
+                dialog_manager.dialog_data['item_id'] = group_id
+            elif is_it_back:
+                stmt = select(Groups).filter(Groups.super_group_id == group_id)
+                dialog_manager.dialog_data['item_id'] = group_id
+            else:
+                stmt = select(Groups).filter(Groups.super_group_id == id)
+            result = await session.execute(stmt)
+            categories = result.all()
+            data = {'categories': [
+                (category[0].description, category[0].id)
+                for category in categories
+                ]
+            }
+            dialog_manager.dialog_data['is_from_product'] = False
+        dialog_manager.dialog_data['is_it_back']=False
+        if data:
+            return data
 
-async def get_level_3(level_2):
-    async with async_session() as session:
-        return await session.scalars(select(Catalog.level_3).where(Catalog.level_2 == level_2))
 
-async def get_level_4(level_2, level_3):
+async def get_products(dialog_manager: DialogManager, **middleware_data):
     async with async_session() as session:
-        return await session.scalars(select(Catalog.level_4).where(Catalog.level_2 == level_2 and Catalog.level_3 == level_3))
+        id = dialog_manager.current_context().start_data.get('item_id')
+        stmt = select(Catalog).filter(Catalog.group_id == id)
+        result = await session.execute(stmt)
+        products = result.all()
+        data = {'products':[
+            (product[0].name, product[0].image, product[0].id)
+            for product in products
+        ]}
+        return data
 
-async def get_level_5(level_2, level_3, level_4):
+async def get_categories_first(dialog_manager: DialogManager, **middleware_data):
     async with async_session() as session:
-        return await session.scalars(select(Catalog.level_5).where(Catalog.level_2 == level_2 and Catalog.level_3 == level_3 and Catalog.level_4 == level_4))
+        name = 'Системы кондиционирования'
+        group_id = await session.scalar(select(Groups.id).where(Groups.description == name))
+        stmt = select(Groups).filter(Groups.super_group_id == group_id)
+        result = await session.execute(stmt)
+        categories = result.all()
+        data = {'categories':[
+            (category[0].description, category[0].id)
+            for category in categories
+            ]
+        }
+        if data:
+            return data
 
-async def get_names(level_2, level_3, level_4, level_5):
+async def get_previous_category(dialog_manager: DialogManager, **middleware_data):
     async with async_session() as session:
-        return await session.scalars(select(Catalog.name).where(Catalog.level_5 == level_5 and Catalog.level_4 == level_4))
+        id = dialog_manager.current_context().dialog_data.get('item_id')
+        group_id = await session.scalar(select(Groups.super_group_id).where(Groups.id == id))
+        stmt = select(Groups).filter(Groups.super_group_id == group_id)
+        result = await session.execute(stmt)
+        categories = result.all()
+        data = {'categories': [
+            (category[0].description, category[0].id)
+            for category in categories
+        ]
+        }
+        if data:
+            return data
 
-async def get_item(name):
-    async with async_session() as session:
-        return await session.scalar(select(Catalog.image).where(Catalog.name == name))
+

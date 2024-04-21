@@ -2,8 +2,12 @@ from aiogram import types, Router, F
 
 from aiogram.filters import Command
 
+from aiogram_dialog import DialogManager
+
 import src.keyboards.inline.catalog as cl
 import src.database.requests as rq
+import src.states.dialog as dialog_states
+
 
 catalog_router = Router()
 
@@ -11,8 +15,8 @@ catalog_router = Router()
 # команда старт
 @catalog_router.message(Command('catalog'))
 @catalog_router.message(F.text == 'Каталог')
-async def catalog_lvl1(message: types.Message):
-    await message.answer('Выберете категорию товара', reply_markup=await cl.catalog_level_1())
+async def catalog_lvl1(message: types.Message, dialog_manager: DialogManager):
+    await dialog_manager.start(dialog_states.dialogFSM.levels[0])
 
 @catalog_router.callback_query(F.data == 'level_1')
 async def catalog_lvl2(callback: types.CallbackQuery):
@@ -45,7 +49,6 @@ async def catalog_names(callback: types.CallbackQuery):
     print(callback.data)
     item = (await rq.get_item(cl.name_dict[int(callback.data.split('_')[5])]))
     print(item)
-    await callback.message.answer_photo(photo=item)
 
 
 @catalog_router.callback_query(F.data == 'to_main')
