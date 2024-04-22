@@ -7,11 +7,10 @@ from src.handlers.registration import registration_router
 from src.handlers.catalog import catalog_router
 from src.keyboards.set_menu import set_main_menu
 from src.database.models import async_main
-from src.handlers.catalog import catalog_router
 from src.handlers.cart import cart_router
 from src.dialogs.Catalog.catalog_dialogs import Catalog_lvl1
 from aiogram_dialog import setup_dialogs
-from aiogram.fsm.storage.memory import MemoryStorage
+
 
 async def main():
     await async_main()
