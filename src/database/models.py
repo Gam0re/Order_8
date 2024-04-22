@@ -18,6 +18,7 @@ conn.autocommit = True
 cursor = conn.cursor()
 
 engine = create_async_engine(url=database_url, echo=True)
+
 async_session = async_sessionmaker(engine)
 
 
