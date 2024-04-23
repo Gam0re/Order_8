@@ -7,6 +7,8 @@ import pandas as pd
 import csv
 from sqlalchemy import select
 
+import html2text
+from bs4 import BeautifulSoup
 import psycopg2
 
 conn = psycopg2.connect(database=DB_NAME,
@@ -55,6 +57,11 @@ class Catalog(Base):
     level_3: Mapped[str] = mapped_column(String(100), nullable=True)
     level_4: Mapped[str] = mapped_column(String(100), nullable=True)
     level_5: Mapped[str] = mapped_column(String(100), nullable=True)
+    price: Mapped[float] = mapped_column(nullable=True)
+    description: Mapped[str] = mapped_column(nullable=True)
+    control_type: Mapped[str] = mapped_column(nullable=True)
+    max_power_consumption: Mapped[str] = mapped_column(nullable=True)
+    appointment: Mapped[str] = mapped_column(nullable=True)
 
 class lvl1_base(Base):
     __tablename__ = 'level_1'
@@ -93,7 +100,7 @@ async def async_main():
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
 
-    with open(r'src\database\severcon_export.csv') as file:
+    with open(r'database\severcon_export.csv') as file:
         reader = csv.reader(file, delimiter='\t')
         header = list(next(reader))
         all_products = []
@@ -102,9 +109,17 @@ async def async_main():
             new_line = {k: v for k, v in zip(header, row)}
             all_products.append(new_line)
         df = pd.DataFrame(all_products)
-
+        text_maker = html2text.HTML2Text()
+        text_maker.ignore_links = True
         async with async_session() as session:
             for index, row in df.iterrows():
+                soap = BeautifulSoup(row[11], 'html.parser')
+                text = soap.get_text().strip('?')
+                price = row[9]
+                if price:
+                    price = float(price)
+                else:
+                    price = float(1)
                 record = Catalog(**{
                     'cond_id': int(row[0]),
                     'name': row[1],
@@ -113,7 +128,12 @@ async def async_main():
                     'level_2': row[5],
                     'level_3': row[6],
                     'level_4': row[7],
-                    'level_5': row[8]
+                    'level_5': row[8],
+                    'price': price,
+                    'description': text,
+                    'control_type': row[18],
+                    'max_power_consumption': row[29],
+                    'appointment': row[88],
                 })
                 session.add(record)
 

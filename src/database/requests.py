@@ -64,7 +64,7 @@ async def orm_get_user_media(tg_id, product_id, page, pages):
         return {'photo': result.image,
                 'name': f'{result.name}\nКоличество: {quantity}\nСтраница {page} из {pages}'}
 
-async def orm_update_satus(tg_id, from_status, to_status):
+async def orm_update_status(tg_id, from_status, to_status):
     async with async_session() as session:
         query = select(Cart).where(Cart.tg_id == tg_id, Cart.status == from_status)
         carts = await session.execute(query)
@@ -104,3 +104,9 @@ async def get_orders(tg_id, status):
             text += await session.scalar(select(Catalog.name).where(Catalog.id == product_id))
             text += '\n'
         return text
+
+async def get_product_price(prod_id):
+    async with async_session() as session:
+        query = select(Catalog.price).where(Catalog.id == prod_id)
+        result = await session.execute(query)
+        return result.scalar()

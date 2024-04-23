@@ -4,6 +4,7 @@ env = Env()
 env.read_env()
 
 BOT_TOKEN = env('BOT_TOKEN')
+PAYMENTS_TOKEN = env('PAYMENTS_TOKEN')
 SUPPORT_ID = env.int('SUPPORT_ID')
 
 DB_USER = env('DB_USER')

@@ -88,10 +88,3 @@ async def get_carts_delete(callback: types.CallbackQuery):
     else:
         await callback.message.delete()
         await callback.message.answer(text='Корзина пуста')
-
-@cart_router.callback_query(F.data == 'to_payment')
-async def status_update(callback: types.CallbackQuery):
-    await callback.answer('Вы оформили заказ')
-    await rq.orm_update_satus(callback.from_user.id, 'shop', 'in_progress')
-    await callback.message.delete()
-    await callback.message.answer('Вы оформили заказ')
