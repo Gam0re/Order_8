@@ -1,6 +1,6 @@
 
 from src.database.models import async_session, User, Catalog, Cart
-from sqlalchemy import select, or_, delete
+from sqlalchemy import select, or_, delete, func
 
 
 
@@ -85,3 +85,23 @@ async def get_number(tg_id):
         phone = await session.scalar(select(User.phone).where(User.tg_id == tg_id))
     return phone
 
+async def get_max_and_min():
+    async with async_session() as session:
+        max_price = await session.scalar(func.max(Catalog.price))
+        min_price = await session.scalar(func.min(Catalog.price))
+    return max_price, min_price
+
+async def get_control_types():
+    async with async_session() as session:
+        types = set(await session.scalars(select(Catalog.control_type)))
+    return types
+
+async def get_appointment_types():
+    async with async_session() as session:
+        types = set(await session.scalars(select(Catalog.appointment)))
+    right_types = []
+    for type in types:
+        for one_type in type.split('|'):
+            right_types.append(one_type.strip())
+    types = set(right_types)
+    return types
