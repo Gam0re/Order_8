@@ -3,6 +3,8 @@ from aiogram import types, Router, F
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 
+from aiogram.fsm.state import default_state
+
 import src.database.requests as rq
 import src.keyboards.default.selection_btns as kb
 import src.states.user as user_states
@@ -44,5 +46,6 @@ async def suitable_products(message: types.Message, state: FSMContext, dialog_ma
     if appointment_type:
         await state.update_data(user_appointment_type=appointment_type)
         await dialog_manager.start(state=selection_states.SelectionStates.searching_products, data=await state.get_data(), mode=StartMode.RESET_STACK)
+        await state.set_state(default_state)
     else:
         await message.answer(text='Выберете из представленного списка')
