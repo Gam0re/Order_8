@@ -112,16 +112,10 @@ async def get_product(prod_id):
         result = await session.execute(query)
         return result.scalar()
 
-async def get_product_price(prod_id):
-    async with async_session() as session:
-        query = select(Catalog.price).where(Catalog.id == prod_id)
-        result = await session.execute(query)
-        return float(result.scalar())
 
 async def get_order_price(tg_id):
     data = await orm_get_user_carts(tg_id)
     order_price = 0
     for order in data:
-        order_price += await get_product_price(order.product_id) * int(order.quantity)
-        print(order_price)
-    return order_price * 100
+        order_price += float((await get_product(order.product_id)).price) * int(order.quantity)
+    return order_price
