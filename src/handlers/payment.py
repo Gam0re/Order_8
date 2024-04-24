@@ -2,6 +2,8 @@ from aiogram import Router, types, F
 from src.data.config import PAYMENTS_TOKEN
 from src.bot import bot
 import src.database.requests as rq
+from src.keyboards.inline.payment_method import payment_kb
+from src.data.config import SUPPORT_ID
 
 payment_router = Router()
 
@@ -10,13 +12,28 @@ async def get_order_price(tg_id):
     data = await rq.orm_get_user_carts(tg_id)
     order_price = 0
     for order in data:
-        order_price += await rq.get_product_price(order.product_id)
-        print(order_price)
+        prod = await rq.get_product(order.product_id)
+        order_price += prod.price
     return int(order_price * 100)
 
 
 @payment_router.callback_query(F.data == 'to_payment')
-async def buy(callback: types.CallbackQuery):
+async def choose_payment_method(callback: types.CallbackQuery):
+    await callback.message.delete()
+    await callback.message.answer("Выберите способ оплаты:", reply_markup=payment_kb)
+
+
+@payment_router.callback_query(F.data == 'cash')
+async def buy_by_cash(callback: types.CallbackQuery):
+    await callback.message.delete()
+    await bot.send_message(SUPPORT_ID, f"Новый заказ от пользователя @{callback.from_user.username} на сумму {await get_order_price(callback.from_user.id)}: "
+                                       f"{[(await rq.get_product(cart.product_id)).name for cart in await rq.orm_get_user_carts(callback.from_user.id)]}")
+    await callback.message.answer("Ваш заказ обработан и передан менеджеру, ожидайте дальнейшей связи")
+    await rq.orm_update_status(callback.from_user.id, 'shop', 'in_progress')
+
+
+@payment_router.callback_query(F.data == 'card')
+async def buy_by_card(callback: types.CallbackQuery):
     if PAYMENTS_TOKEN.split(':')[1] == 'TEST':
         await bot.send_message(callback.message.chat.id, "Тестовый платеж!!!")
     await bot.send_invoice(callback.message.chat.id,

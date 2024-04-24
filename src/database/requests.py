@@ -105,8 +105,8 @@ async def get_orders(tg_id, status):
             text += '\n'
         return text
 
-async def get_product_price(prod_id):
+async def get_product(prod_id):
     async with async_session() as session:
-        query = select(Catalog.price).where(Catalog.id == prod_id)
+        query = select(Catalog).where(Catalog.id == prod_id)
         result = await session.execute(query)
         return result.scalar()
