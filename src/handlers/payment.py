@@ -25,6 +25,7 @@ async def buy_by_cash(callback: types.CallbackQuery):
 
 @payment_router.callback_query(F.data == 'card')
 async def buy_by_card(callback: types.CallbackQuery):
+    await callback.message.delete()
     if PAYMENTS_TOKEN.split(':')[1] == 'TEST':
         await bot.send_message(callback.message.chat.id, "Тестовый платеж!!!")
     await bot.send_invoice(callback.message.chat.id,
