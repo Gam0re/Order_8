@@ -99,11 +99,18 @@ async def get_number(tg_id):
 async def get_orders(tg_id, status):
     async with async_session() as session:
         ids = await session.scalars(select(Cart.product_id).where(Cart.tg_id == tg_id, Cart.status == status))
+        print(f'---------------------{await session.scalar(select(Cart.status).where(Cart.tg_id == tg_id))}-----------------------_')
         text = ''
         for product_id in ids:
             text += await session.scalar(select(Catalog.name).where(Catalog.id == product_id))
             text += '\n'
         return text
+
+async def get_product(prod_id):
+    async with async_session() as session:
+        query = select(Catalog).where(Catalog.id == prod_id)
+        result = await session.execute(query)
+        return result.scalar()
 
 async def get_product_price(prod_id):
     async with async_session() as session:
