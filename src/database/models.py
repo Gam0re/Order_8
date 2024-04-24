@@ -100,7 +100,7 @@ async def async_main():
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
 
-    with open(r'database\severcon_export.csv') as file:
+    with open(r'src\database\severcon_export.csv') as file:
         reader = csv.reader(file, delimiter='\t')
         header = list(next(reader))
         all_products = []
@@ -109,8 +109,7 @@ async def async_main():
             new_line = {k: v for k, v in zip(header, row)}
             all_products.append(new_line)
         df = pd.DataFrame(all_products)
-        text_maker = html2text.HTML2Text()
-        text_maker.ignore_links = True
+
         async with async_session() as session:
             for index, row in df.iterrows():
                 soap = BeautifulSoup(row[11], 'html.parser')
