@@ -82,9 +82,11 @@ async def get_selected_items(dialog_manager: DialogManager, **middleware_data):
 
 #получение карточки товара
 async def get_item(dialog_manager: DialogManager, **middleware_data):
-     async with async_session() as session:
-        db_main_name = await session.scalar(select(Catalog.name).where(Catalog.id == int(dialog_manager.current_context().dialog_data.get('item_id'))))
-        db_main_image = await session.scalar(select(Catalog.image).where(Catalog.id == int(dialog_manager.current_context().dialog_data.get('item_id'))))
-        data = {'name': db_main_name,
-                'image': db_main_image}
+    async with async_session() as session:
+        db_main = await session.scalar(
+            select(Catalog).where(Catalog.id == int(dialog_manager.current_context().dialog_data.get('item_id'))))
+        data = {'name': db_main.name,
+                'image': db_main.image,
+                'price': db_main.price,
+                'description': db_main.description}
         return data

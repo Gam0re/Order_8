@@ -1,6 +1,6 @@
 
 from src.database.models import async_session, User, Catalog, Cart
-from sqlalchemy import select, or_, delete, func
+from sqlalchemy import select, or_, delete, func, and_
 
 
 
@@ -78,30 +78,32 @@ async def update_name_and_phone(tg_id, **kwargs):
 async def get_name(tg_id):
     async with async_session() as session:
         name = await session.scalar(select(User.name).where(User.tg_id == tg_id))
-    return name
+        return name
 
 async def get_number(tg_id):
     async with async_session() as session:
         phone = await session.scalar(select(User.phone).where(User.tg_id == tg_id))
-    return phone
+        return phone
 
 async def get_max_and_min():
     async with async_session() as session:
         max_price = await session.scalar(func.max(Catalog.price))
         min_price = await session.scalar(func.min(Catalog.price))
-    return max_price, min_price
+        return max_price, min_price
 
 async def get_control_types():
     async with async_session() as session:
         types = set(await session.scalars(select(Catalog.control_type)))
-    return types
+        return types
 
 async def get_appointment_types():
     async with async_session() as session:
         types = set(await session.scalars(select(Catalog.appointment)))
-    right_types = []
-    for type in types:
-        for one_type in type.split('|'):
-            right_types.append(one_type.strip())
-    types = set(right_types)
-    return types
+        right_types = []
+        for type in types:
+            for one_type in type.split('|'):
+                right_types.append(one_type.strip())
+        types = set(right_types)
+        return types
+
+

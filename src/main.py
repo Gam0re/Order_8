@@ -10,6 +10,7 @@ from src.keyboards.set_menu import set_main_menu
 from src.database.models import async_main
 from src.handlers.cart import cart_router
 from src.dialogs.Catalog.catalog_dialogs import Catalog_lvl1
+from src.dialogs.Selection.selection_dialog import selection
 from aiogram_dialog import setup_dialogs
 
 
@@ -19,6 +20,7 @@ async def main():
     dp.include_router(help_router)
     dp.include_router(catalog_router)
     dp.include_router(Catalog_lvl1)
+    dp.include_router(selection)
     dp.include_router(cart_router)
     dp.include_router(selection_router)
     setup_dialogs(dp)
