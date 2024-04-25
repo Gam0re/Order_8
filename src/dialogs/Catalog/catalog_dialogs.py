@@ -31,7 +31,8 @@ Catalog_lvl1 = Dialog(
             ),
             id="lvl1_group",
             height=6,
-            width=1
+            width=1,
+            hide_on_single_page=True
         ),
         Button(Const("На главную"), id="to_main", on_click=to_main),
         getter=get_level_1,
@@ -50,6 +51,7 @@ Catalog_lvl1 = Dialog(
             id="lvl2_group",
             height=6,
             width=1,
+            hide_on_single_page=True
         ),
         Row(Button(Const("На главную"), id="to_main", on_click=to_main),
             Back(Const("⬅ Назад"))),
@@ -69,8 +71,10 @@ Catalog_lvl1 = Dialog(
             id="lvl3_group",
             height=5,
             width=1,
+            hide_on_single_page=True
         ),
-        Row(Button(Const("Посмотреть товары"), id="confirm", on_click=selected_item3), Button(Const("На главную"), id="to_main", on_click=to_main),
+        Button(Const("Посмотреть товары"), id="confirm", on_click=selected_item3),
+        Row(Button(Const("На главную"), id="to_main", on_click=to_main),
             Back(Const("⬅ Назад"))),
         state=Catalog_levels.level_3,
         getter=get_level_3,
@@ -88,8 +92,10 @@ Catalog_lvl1 = Dialog(
             id="lvl4_group",
             height=6,
             width=1,
+            hide_on_single_page=True
         ),
-        Row(Button(Const("Посмотреть товары"), id="confirm", on_click=selected_item4), Button(Const("На главную"), id="to_main", on_click=to_main),
+        Button(Const("Посмотреть товары"), id="confirm", on_click=selected_item4),
+        Row(Button(Const("На главную"), id="to_main", on_click=to_main),
             Back(Const("⬅ Назад"))),
         state=Catalog_levels.level_4,
         getter=get_level_4,
@@ -107,8 +113,10 @@ Catalog_lvl1 = Dialog(
             id="lvl5_group",
             height=6,
             width=1,
+            hide_on_single_page=True
         ),
-        Row(Button(Const("Посмотреть товары"), id="confirm", on_click=selected_item5), Button(Const("На главную"), id="to_main", on_click=to_main),
+        Button(Const("Посмотреть товары"), id="confirm", on_click=selected_item5),
+        Row(Button(Const("На главную"), id="to_main", on_click=to_main),
             Back(Const("⬅ Назад"))),
         state=Catalog_levels.level_5,
         getter=get_level_5,
@@ -126,6 +134,7 @@ Catalog_lvl1 = Dialog(
             id="selected_items_group",
             height=6,
             width=1,
+            hide_on_single_page=True
         ),
         Row(Button(Const("На главную"), id="to_main", on_click=to_main),
             Button(Const("⬅ Назад"), id="back", on_click=back)),

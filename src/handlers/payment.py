@@ -3,7 +3,7 @@ from src.data.config import PAYMENTS_TOKEN
 from src.bot import bot
 import src.database.requests as rq
 from src.keyboards.inline.payment_method import payment_kb
-from src.data.config import SUPPORT_ID
+from src.data.config import MANAGER_ID
 
 payment_router = Router()
 
@@ -17,7 +17,7 @@ async def choose_payment_method(callback: types.CallbackQuery):
 @payment_router.callback_query(F.data == 'cash')
 async def buy_by_cash(callback: types.CallbackQuery):
     await callback.message.delete()
-    await bot.send_message(SUPPORT_ID, f"Новый заказ от пользователя @{callback.from_user.username} на сумму {await rq.get_order_price(callback.from_user.id)} руб.: "
+    await bot.send_message(MANAGER_ID, f"Новый заказ от пользователя @{callback.from_user.username} на сумму {await rq.get_order_price(callback.from_user.id)} руб.: "
                                        f"{[(await rq.get_product(cart.product_id)).name for cart in await rq.orm_get_user_carts(callback.from_user.id)]}")
     await callback.message.answer("Ваш заказ обработан и передан менеджеру, ожидайте дальнейшей связи")
     await rq.orm_update_status(callback.from_user.id, 'shop', 'in_progress')

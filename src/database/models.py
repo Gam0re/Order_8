@@ -7,7 +7,6 @@ import pandas as pd
 import csv
 from sqlalchemy import select
 
-import html2text
 from bs4 import BeautifulSoup
 import psycopg2
 
@@ -100,7 +99,7 @@ async def async_main():
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
 
-    with open(r'database\severcon_export.csv') as file:
+    with open(r'src/database/severcon_export.csv', encoding='cp1251') as file:
         reader = csv.reader(file, delimiter='\t')
         header = list(next(reader))
         all_products = []

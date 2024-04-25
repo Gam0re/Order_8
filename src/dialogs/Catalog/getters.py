@@ -84,8 +84,19 @@ async def get_selected_items(dialog_manager: DialogManager, **middleware_data):
 async def get_item(dialog_manager: DialogManager, **middleware_data):
      async with async_session() as session:
         db_main = await session.scalar(select(Catalog).where(Catalog.id == int(dialog_manager.current_context().dialog_data.get('item_id'))))
+        if db_main.image == '':
+            image = 'https://cdn-icons-png.flaticon.com/512/4054/4054617.png'
+        else:
+            image = db_main.image
+
+        if len(db_main.description) > 300:
+            description = db_main.description[0:300]
+        elif len(db_main.description) < 300 and db_main.description != '':
+            description = db_main.description
+        else:
+            description = 'Описание товара отсутствует'
         data = {'name': db_main.name,
-                'image': db_main.image,
+                'image': image,
                 'price': db_main.price,
-                'description': db_main.description}
+                'description': description}
         return data
