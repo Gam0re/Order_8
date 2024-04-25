@@ -34,16 +34,16 @@ selection = Dialog(
         state=SelectionStates.searching_products,),
     Window(
         StaticMedia(
-            url=Format('{image}'),
-            type=ContentType.PHOTO,
-        ),
-    Format("Вы выбрали: {name}\n"
-           "Описание:\n"
-           "{description}\n"
-           "Цена: {price} Руб."),
+        url=Format('{image}'),
+        type=ContentType.PHOTO,
+    ),
+        Format("Вы выбрали: {name}\n"
+               "Описание:\n"
+               "{description}\n"
+               "Цена: {price} Руб."),
         Row(Button(Const("В корзину"), id="to_cart", on_click=to_cart), Button(Const("На главную"), id="to_main", on_click=to_main),
             Back(Const("⬅ Назад"))),
         state=SelectionStates.view_product,
         getter=get_item,
-        )
-    )
+    ),
+)
