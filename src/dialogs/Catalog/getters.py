@@ -118,8 +118,9 @@ async def get_item(dialog_manager: DialogManager, **middleware_data):
         if db_main.image == '':
             image = 'https://cdn-icons-png.flaticon.com/512/4054/4054617.png'
         else:
+            size = await get_image_size(db_main.image)
             ratio = await get_image_ratio(db_main.image)
-            if await get_image_size(db_main.image) > 10 or ratio[0] + ratio[1] > 10000 or ratio[2] > 20:
+            if (size and size > 10) or (ratio[0] and ratio[0] + ratio[1] > 10000 or ratio[2] > 20):
                 image = 'https://cdn-icons-png.flaticon.com/512/4054/4054617.png'
             else:
                 image = db_main.image
