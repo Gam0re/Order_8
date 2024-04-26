@@ -1,8 +1,6 @@
 from src.database.models import async_session, Catalog, lvl1_base, lvl2_base, lvl3_base, lvl4_base, lvl5_base
 from sqlalchemy import select
-import requests
-from PIL import Image
-from io import BytesIO
+from src.utils.funcs import get_image_size, get_image_ratio
 
 from aiogram_dialog import DialogManager
 
@@ -82,33 +80,6 @@ async def get_selected_items(dialog_manager: DialogManager, **middleware_data):
             db_main_items = set(await session.scalars(select(Catalog).where(Catalog.level_5 == lvl5_name, Catalog.level_4 == lvl4_name, Catalog.level_3 == lvl3_name, Catalog.level_2 == lvl2_name)))
             data = {'item': [(item.name, item.id) for item in db_main_items]}
         return data
-
-async def get_image_size(url):
-    try:
-        response = requests.head(url)
-        headers = response.headers
-        content_length = headers.get('Content-Length')
-        if content_length:
-            size_in_bytes = int(content_length)
-            size_in_mb = size_in_bytes / 1048576
-            return size_in_mb
-        else:
-            return None
-    except Exception as e:
-        print("Error:", e)
-        return None
-
-async def get_image_ratio(url):
-    try:
-        response = requests.get(url)
-        image_data = response.content
-        image = Image.open(BytesIO(image_data))
-        width, height = image.size
-        aspect_ratio = width / height
-        return width, height, aspect_ratio
-    except Exception as e:
-        print("Error:", e)
-        return None, None, None
 
 
 #получение карточки товара

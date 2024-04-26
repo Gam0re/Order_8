@@ -1,4 +1,4 @@
-from src.dialogs.Catalog.getters import get_image_ratio, get_image_size
+from src.utils.funcs import get_image_ratio, get_image_size
 from src.database.models import async_session, User, Catalog, Cart
 from sqlalchemy import select, or_, delete, func, and_,update
 
