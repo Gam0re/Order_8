@@ -1,4 +1,4 @@
-
+from src.dialogs.Catalog.getters import get_image_ratio, get_image_size
 from src.database.models import async_session, User, Catalog, Cart
 from sqlalchemy import select, or_, delete, func, and_,update
 
@@ -63,7 +63,16 @@ async def orm_get_user_media(tg_id, product_id, page, pages):
         result = await session.scalar(select(Catalog).where(Catalog.id == product_id))
         quantity = await session.scalar(select(Cart.quantity).where(Cart.product_id == product_id, Cart.tg_id == tg_id, Cart.status == 'shop'))
         total_price = float(quantity) * float(result.price)
-        return {'photo': result.image,
+        if result.image == '':
+            image = 'https://cdn-icons-png.flaticon.com/512/4054/4054617.png'
+        else:
+            size = await get_image_size(result.image)
+            ratio = await get_image_ratio(result.image)
+            if (size and size > 10) or (ratio[0] and ratio[0] + ratio[1] > 10000 or ratio[2] > 20):
+                image = 'https://cdn-icons-png.flaticon.com/512/4054/4054617.png'
+            else:
+                image = result.image
+        return {'photo': image,
                 'name': f'{result.name}\nКоличество: {quantity}\nЦена: {total_price} Руб.\nСтраница {page} из {pages}'}
 
 async def orm_update_status(tg_id, from_status, to_status):
