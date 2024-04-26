@@ -2,21 +2,12 @@ from sqlalchemy import BigInteger, String, ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
 from src.data.config import database_url
-from src.data.config import DB_USER, DB_NAME, DB_HOST, DB_PASS, DB_PORT
 import pandas as pd
 import csv
 from sqlalchemy import select
 
 from bs4 import BeautifulSoup
-import psycopg2
 
-conn = psycopg2.connect(database=DB_NAME,
-                        user=DB_USER, password=DB_PASS,
-                        host=DB_HOST, port=DB_PORT
-)
-
-conn.autocommit = True
-cursor = conn.cursor()
 
 engine = create_async_engine(url=database_url, echo=True)
 
@@ -94,8 +85,6 @@ class lvl5_base(Base):
 
 async def async_main():
     async with engine.begin() as conn:
-        sql = '''DROP TABLE catalog CASCADE'''
-        cursor.execute(sql)
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
 

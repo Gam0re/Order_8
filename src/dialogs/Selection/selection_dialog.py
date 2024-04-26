@@ -17,7 +17,7 @@ from src.dialogs.Catalog.getters import get_item
 
 selection = Dialog(
     Window(
-        Const('Выберете товары'),
+        Const('Выберите товары'),
         ScrollingGroup(Select(
                 id="selected_items",
                 items="item",

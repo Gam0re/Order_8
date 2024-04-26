@@ -20,7 +20,7 @@ from .callbacks import selected_level1, selected_level2, selected_level3, select
 
 Catalog_lvl1 = Dialog(
     Window(
-        Const("Пожалуйста выбирите категорию"),
+        Const("Пожалуйста выберите категорию"),
         ScrollingGroup(
             Select(
                 id="level_1",
@@ -39,7 +39,7 @@ Catalog_lvl1 = Dialog(
         state=Catalog_levels.level_1,
     ),
     Window(
-        Const("Пожалуйста выбирите категорию"),
+        Const("Пожалуйста выберите категорию"),
         ScrollingGroup(
             Select(
                 id="Level_2",
@@ -59,7 +59,7 @@ Catalog_lvl1 = Dialog(
         getter=get_level_2,
     ),
     Window(
-        Const("Пожалуйста выбирите категорию"),
+        Const("Пожалуйста выберите категорию"),
         ScrollingGroup(
             Select(
                 id="Level_3",
@@ -80,7 +80,7 @@ Catalog_lvl1 = Dialog(
         getter=get_level_3,
     ),
     Window(
-        Const("Пожалуйста выбирите категорию"),
+        Const("Пожалуйста выберите категорию"),
         ScrollingGroup(
             Select(
                 id="Level_4",
@@ -101,7 +101,7 @@ Catalog_lvl1 = Dialog(
         getter=get_level_4,
     ),
     Window(
-        Const("Пожалуйста выбирите категорию"),
+        Const("Пожалуйста выберите категорию"),
         ScrollingGroup(
             Select(
                 id="Level_5",
