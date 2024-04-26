@@ -12,6 +12,7 @@ cart_router = Router()
 # корзина
 @cart_router.message(Command('cart'))
 @cart_router.message(F.text == 'Корзина')
+@cart_router.callback_query(F.data == 'go_to_cart')
 async def get_carts(message: types.Message):
     data = await rq.orm_get_user_carts(message.from_user.id)
     order_price = await rq.get_order_price(message.from_user.id)

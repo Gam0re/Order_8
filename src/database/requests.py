@@ -137,17 +137,8 @@ async def get_max_and_min():
 
 async def get_control_types():
     async with async_session() as session:
-        types = set(await session.scalars(select(Catalog.control_type)))
+        types = set(await session.scalars(select(Catalog.type_comp)))
         return types
 
-async def get_appointment_types():
-    async with async_session() as session:
-        types = set(await session.scalars(select(Catalog.appointment)))
-        right_types = []
-        for type in types:
-            for one_type in type.split('|'):
-                right_types.append(one_type.strip())
-        types = set(right_types)
-        return types
 
 

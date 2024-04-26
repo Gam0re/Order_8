@@ -16,7 +16,7 @@ selection_router = Router()
 @selection_router.message(F.text == 'Подбор')
 async def selection_price(message: types.Message, state: FSMContext):
     max_price, min_price = await rq.get_max_and_min()
-    await message.answer(text=f'Нaпишите цену от {min_price} до {max_price} в рублях')
+    await message.answer(text=f'Нaпишите максимальную стоимость до {max_price} в рублях')
     await state.set_state(user_states.UserFSM.write_price)
 
 @selection_router.message(F.text, StateFilter(user_states.UserFSM.write_price))
@@ -31,20 +31,30 @@ async def selection_control_type(message: types.Message, state: FSMContext):
         await message.answer(text=f"такой цены нет, попробуйте еще раз")
 
 @selection_router.message(F.text, StateFilter(user_states.UserFSM.choosing_control_type))
-async def selection_appointment(message: types.Message, state: FSMContext):
+async def selection_square(message: types.Message, state: FSMContext):
     control_type = message.text
     if control_type:
         await state.update_data(user_control_type=control_type)
-        await message.answer(text='Выберете назначение', reply_markup=await kb.get_selection_btns('appointment'))
-        await state.set_state(user_states.UserFSM.choosing_appointment_type)
+        await message.answer(text='На какую площадь рассчитан кондиционер?')
+        await state.set_state(user_states.UserFSM.choosing_square)
     else:
         await message.answer(text='Выберете из представленного списка')
 
-@selection_router.message(F.text, StateFilter(user_states.UserFSM.choosing_appointment_type))
+@selection_router.message(F.text, StateFilter(user_states.UserFSM.choosing_square))
+async def selection_power(message: types.Message, state: FSMContext, dialog_manager: DialogManager):
+    square = message.text
+    if square:
+        await state.update_data(user_square=square)
+        await message.answer(text='Укажите мощность в кВт')
+        await state.set_state(user_states.UserFSM.choosing_power)
+    else:
+        await message.answer(text='Выберете из представленного списка')
+
+@selection_router.message(F.text, StateFilter(user_states.UserFSM.choosing_power))
 async def suitable_products(message: types.Message, state: FSMContext, dialog_manager: DialogManager):
-    appointment_type = message.text
-    if appointment_type:
-        await state.update_data(user_appointment_type=appointment_type)
+    power = message.text
+    if power:
+        await state.update_data(user_power=power)
         await dialog_manager.start(state=selection_states.SelectionStates.searching_products, data=await state.get_data(), mode=StartMode.RESET_STACK)
         await state.set_state(default_state)
     else:

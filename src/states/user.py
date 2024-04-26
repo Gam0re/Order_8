@@ -12,6 +12,7 @@ class UserFSM(StatesGroup):
 
     write_price = State()
     choosing_control_type = State()
-    choosing_appointment_type = State()
+    choosing_square = State()
+    choosing_power = State()
 
 

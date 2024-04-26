@@ -49,11 +49,14 @@ class Catalog(Base):
     level_4: Mapped[str] = mapped_column(String(100), nullable=True)
     level_5: Mapped[str] = mapped_column(String(100), nullable=True)
     price: Mapped[float] = mapped_column(nullable=True)
-    description: Mapped[str] = mapped_column(nullable=True)
-    control_type: Mapped[str] = mapped_column(nullable=True)
-    max_power_consumption: Mapped[str] = mapped_column(nullable=True)
-    appointment: Mapped[str] = mapped_column(nullable=True)
-
+    type_comp: Mapped[str] = mapped_column(nullable=True)
+    brend: Mapped[str] = mapped_column(nullable=True)
+    garant: Mapped[str] = mapped_column(nullable=True)
+    cold_pr: Mapped[str] = mapped_column(nullable=True)
+    warm_pr: Mapped[str] = mapped_column(nullable=True)
+    power_cons_cold: Mapped[str] = mapped_column(nullable=True)
+    power_cons_warm: Mapped[str] = mapped_column(nullable=True)
+    wifi: Mapped[str] = mapped_column(nullable=True)
 class lvl1_base(Base):
     __tablename__ = 'level_1'
 
@@ -89,8 +92,8 @@ async def async_main():
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
 
-    with open(r'src/database/severcon_export.csv', encoding='cp1251') as file:
-        reader = csv.reader(file, delimiter='\t')
+    with open(r'src/database/severcon_export_fin1.csv', encoding='cp1251') as file:
+        reader = csv.reader(file, delimiter=';')
         header = list(next(reader))
         all_products = []
 
@@ -98,7 +101,7 @@ async def async_main():
             new_line = {k: v for k, v in zip(header, row)}
             all_products.append(new_line)
         df = pd.DataFrame(all_products)
-
+        print(df)
         async with async_session() as session:
             for index, row in df.iterrows():
                 soap = BeautifulSoup(row[11], 'html.parser')
@@ -108,6 +111,16 @@ async def async_main():
                     price = float(price)
                 else:
                     price = float(1)
+
+                if row[18] == '':
+                    type_comp = 'Отсутствует'
+                else:
+                    type_comp = row[18]
+
+                if row[31] == '':
+                    wifi = 'Отсутсвует'
+                else:
+                    wifi = row[31]
                 record = Catalog(**{
                     'cond_id': int(row[0]),
                     'name': row[1],
@@ -118,10 +131,14 @@ async def async_main():
                     'level_4': row[7],
                     'level_5': row[8],
                     'price': price,
-                    'description': text,
-                    'control_type': row[18],
-                    'max_power_consumption': row[29],
-                    'appointment': row[88],
+                    'type_comp': type_comp,
+                    'brend': str(row[1]).split(' ')[0],
+                    'garant': row[20],
+                    'cold_pr': row[21],
+                    'warm_pr': row[22],
+                    'power_cons_cold': row[23],
+                    'power_cons_warm': row[24],
+                    'wifi': wifi
                 })
                 session.add(record)
 

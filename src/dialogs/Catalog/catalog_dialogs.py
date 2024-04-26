@@ -12,32 +12,13 @@ from aiogram.types import ContentType
 import operator
 
 from .states import Catalog_levels
-from .getters import get_level_1, get_level_2, get_level_4, get_level_5, get_level_3, get_item, get_selected_items
+from .getters import get_level_2, get_level_4, get_level_5, get_level_3, get_item, get_selected_items
 from .callbacks import selected_level1, selected_level2, selected_level3, selected_level4, selected_level5, \
-    selected_item3, to_item, back, selected_item4,selected_item5, to_cart, to_main
+    selected_item3, to_item, back, selected_item4,selected_item5, to_cart, to_main, go_to_cart
 
 
 
 Catalog_lvl1 = Dialog(
-    Window(
-        Const("Пожалуйста выберите категорию"),
-        ScrollingGroup(
-            Select(
-                id="level_1",
-                items="lvl1",
-                item_id_getter=operator.itemgetter(1),
-                on_click=selected_level1,
-                text=Format("{item[0]}"),
-            ),
-            id="lvl1_group",
-            height=6,
-            width=1,
-            hide_on_single_page=True
-        ),
-        Button(Const("На главную"), id="to_main", on_click=to_main),
-        getter=get_level_1,
-        state=Catalog_levels.level_1,
-    ),
     Window(
         Const("Пожалуйста выберите категорию"),
         ScrollingGroup(
@@ -53,8 +34,7 @@ Catalog_lvl1 = Dialog(
             width=1,
             hide_on_single_page=True
         ),
-        Row(Button(Const("На главную"), id="to_main", on_click=to_main),
-            Back(Const("⬅ Назад"))),
+        Row(Button(Const("На главную"), id="to_main", on_click=to_main), Button(Const("Корзина"), id="go_to_cart", on_click=go_to_cart)),
         state=Catalog_levels.level_2,
         getter=get_level_2,
     ),
@@ -73,14 +53,13 @@ Catalog_lvl1 = Dialog(
             width=1,
             hide_on_single_page=True
         ),
-        Button(Const("Посмотреть товары"), id="confirm", on_click=selected_item3),
-        Row(Button(Const("На главную"), id="to_main", on_click=to_main),
-            Back(Const("⬅ Назад"))),
+        Row(Button(Const("На главную"), id="to_main", on_click=to_main), Button(Const("Корзина"), id="go_to_cart", on_click=go_to_cart),
+            Button(Const("⬅ Назад"), id="back", on_click=back)),
         state=Catalog_levels.level_3,
         getter=get_level_3,
     ),
     Window(
-        Const("Пожалуйста выберите категорию"),
+        Const("Пожалуйста выберите серию"),
         ScrollingGroup(
             Select(
                 id="Level_4",
@@ -94,14 +73,13 @@ Catalog_lvl1 = Dialog(
             width=1,
             hide_on_single_page=True
         ),
-        Button(Const("Посмотреть товары"), id="confirm", on_click=selected_item4),
-        Row(Button(Const("На главную"), id="to_main", on_click=to_main),
-            Back(Const("⬅ Назад"))),
+        Row(Button(Const("На главную"), id="to_main", on_click=to_main), Button(Const("Корзина"), id="go_to_cart", on_click=go_to_cart),
+            Button(Const("⬅ Назад"), id="back", on_click=back)),
         state=Catalog_levels.level_4,
         getter=get_level_4,
     ),
     Window(
-        Const("Пожалуйста выберите категорию"),
+        Const("Пожалуйста выберите серию"),
         ScrollingGroup(
             Select(
                 id="Level_5",
@@ -115,9 +93,8 @@ Catalog_lvl1 = Dialog(
             width=1,
             hide_on_single_page=True
         ),
-        Button(Const("Посмотреть товары"), id="confirm", on_click=selected_item5),
-        Row(Button(Const("На главную"), id="to_main", on_click=to_main),
-            Back(Const("⬅ Назад"))),
+        Row(Button(Const("На главную"), id="to_main", on_click=to_main), Button(Const("Корзина"), id="go_to_cart", on_click=go_to_cart),
+            Button(Const("⬅ Назад"), id="back", on_click=back)),
         state=Catalog_levels.level_5,
         getter=get_level_5,
     ),
@@ -136,7 +113,7 @@ Catalog_lvl1 = Dialog(
             width=1,
             hide_on_single_page=True
         ),
-        Row(Button(Const("На главную"), id="to_main", on_click=to_main),
+        Row(Button(Const("На главную"), id="to_main", on_click=to_main), Button(Const("Корзина"), id="go_to_cart", on_click=go_to_cart),
             Button(Const("⬅ Назад"), id="back", on_click=back)),
         state=Catalog_levels.select_item,
         getter=get_selected_items,
@@ -147,8 +124,15 @@ Catalog_lvl1 = Dialog(
         type=ContentType.PHOTO,
     ),
         Format("Вы выбрали: {name}\n"
-               "Описание:\n"
-               "{description}\n"
+               "Характеристика:\n"
+               "{type_comp}\n"
+               "{brend}\n"
+               "{garant}\n"
+               "{cold_pr}\n"
+               "{warm_pr}\n"
+               "{power_cons_cold}\n"
+               "{power_cons_warm}\n"
+               "{wifi}\n"
                "Цена: {price} Руб."),
         Row(Button(Const("В корзину"), id="to_cart", on_click=to_cart), Button(Const("На главную"), id="to_main", on_click=to_main),
             Back(Const("⬅ Назад"))),

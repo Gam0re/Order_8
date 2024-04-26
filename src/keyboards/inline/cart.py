@@ -7,7 +7,9 @@ def cart_kb(page, price):
             [InlineKeyboardButton(text='Удалить', callback_data=f'delete_{page}'),
              InlineKeyboardButton(text='+', callback_data=f'increment_{page}'),
              InlineKeyboardButton(text='-', callback_data=f'decrement_{page}')],
-            [InlineKeyboardButton(text='Назад', callback_data=f'back_{page}'), InlineKeyboardButton(text='Вперед', callback_data=f'next_{page}')],
+            [InlineKeyboardButton(text='Назад', callback_data=f'back_{page}'),
+             InlineKeyboardButton(text='Каталог', callback_data='to_catalog'),
+             InlineKeyboardButton(text='Вперед', callback_data=f'next_{page}')],
             [InlineKeyboardButton(text=f'Оформить заказ({price} Руб.)', callback_data='to_payment')]
         ])
     else:
