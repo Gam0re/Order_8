@@ -1,4 +1,4 @@
-from src.database.models import async_session, Catalog, lvl1_base, lvl2_base, lvl3_base, lvl4_base, lvl5_base
+from src.database.models import async_session, Catalog, lvl1_base, lvl2_base, lvl3_base, lvl4_base, lvl5_base, User
 from sqlalchemy import select
 from src.utils.funcs import get_image_size, get_image_ratio
 
@@ -102,8 +102,15 @@ async def get_item(dialog_manager: DialogManager, **middleware_data):
             description = db_main.description
         else:
             description = 'Описание товара отсутствует'
+
+        opt = await session.scalar(select(User.opt).where(User.tg_id == int(dialog_manager.current_context().dialog_data.get('user_id'))))
+        if opt:
+            price = float(db_main.price) * 0.8
+        else:
+            price = float(db_main.price)
+
         data = {'name': db_main.name,
                 'image': image,
-                'price': db_main.price,
+                'price': price,
                 'description': description}
         return data

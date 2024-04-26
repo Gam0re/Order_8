@@ -10,7 +10,7 @@ async def set_user(tg_id):
         user = await session.scalar(select(User).where(User.tg_id == tg_id))
 
         if not user:
-            session.add(User(tg_id=tg_id))
+            session.add(User(tg_id=tg_id, opt=False))
             await session.commit()
 
 async def orm_add_to_cart(tg_id: int, product_id: int):

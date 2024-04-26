@@ -13,6 +13,7 @@ async def selected_level1(
     item_id: str,
 ):
     dialog_manager.dialog_data["level_1"] = item_id
+    dialog_manager.dialog_data["user_id"] = callback_query.from_user.id
     await dialog_manager.switch_to(Catalog_levels.level_2)
 
 #запись id для уровня 2
