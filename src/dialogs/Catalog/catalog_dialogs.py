@@ -133,7 +133,7 @@ Catalog_lvl1 = Dialog(
                "{power_cons_cold}\n"
                "{power_cons_warm}\n"
                "{wifi}\n"
-               "Цена: {price} Руб."),
+               "Цена: {price}"),
         Row(Button(Const("В корзину"), id="to_cart", on_click=to_cart), Button(Const("На главную"), id="to_main", on_click=to_main),
             Back(Const("⬅ Назад"))),
         state=Catalog_levels.item,
