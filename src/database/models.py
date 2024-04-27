@@ -35,6 +35,7 @@ class Cart(Base):
     product_id: Mapped[int] = mapped_column(nullable=True)
     quantity: Mapped[int]
     status: Mapped[str] = mapped_column(String(20), nullable=True)
+    already_payed: Mapped[bool] = mapped_column(default=False)
 
 class Catalog(Base):
     __tablename__ = 'catalog'
@@ -92,7 +93,7 @@ async def async_main():
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
 
-    with open(r'src/database/severcon_export_fin1.csv', encoding='cp1251') as file:
+    with open(r'database\severcon_export_fin1.csv', encoding='cp1251') as file:
         reader = csv.reader(file, delimiter=';')
         header = list(next(reader))
         all_products = []
