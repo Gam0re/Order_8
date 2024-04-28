@@ -35,6 +35,7 @@ class Cart(Base):
     product_id: Mapped[int] = mapped_column(nullable=True)
     quantity: Mapped[int]
     status: Mapped[str] = mapped_column(String(20), nullable=True)
+    already_payed: Mapped[bool] = mapped_column(default=False)
 
 class Catalog(Base):
     __tablename__ = 'catalog'

@@ -89,6 +89,13 @@ async def orm_update_status(tg_id, from_status, to_status):
             cart.status = to_status
         await session.commit()
 
+async def orm_update_payment_status(tg_id):
+    async with async_session() as session:
+        carts = await orm_get_user_carts(tg_id)
+        for cart in carts:
+            cart.already_payed = ~cart.already_payed
+        await session.commit()
+
 async def update_name_and_phone(tg_id, **kwargs):
     async with async_session() as session:
         user_id = await session.scalar(select(User.id).where(User.tg_id == tg_id))
