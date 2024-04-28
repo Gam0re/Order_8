@@ -56,10 +56,7 @@ class Catalog(Base):
     warm_pr: Mapped[str] = mapped_column(nullable=True)
     power_cons_cold: Mapped[str] = mapped_column(nullable=True)
     power_cons_warm: Mapped[str] = mapped_column(nullable=True)
-    power_cons_max: Mapped[float] = mapped_column(nullable=True)
     wifi: Mapped[str] = mapped_column(nullable=True)
-    square_min: Mapped[int] = mapped_column(nullable=True)
-    square_max: Mapped[int] = mapped_column(nullable=True)
 
 class lvl1_base(Base):
     __tablename__ = 'level_1'

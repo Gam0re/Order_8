@@ -133,9 +133,13 @@ async def get_order_price(tg_id):
     for order in data:
         order_price += float((await get_product(order.product_id)).price) * int(order.quantity)
     return order_price
-async def get_min():
+async def get_min(data):
     async with async_session() as session:
-        prices = await session.scalars(select(Catalog.price))
+        type_comp = data['user_type_comp']
+        if type_comp == 'Инверторный':
+            prices = await session.scalars(select(Catalog.price).where(Catalog.type_comp == 'Инверторный'))
+        else:
+            prices = await session.scalars(select(Catalog.price).where(Catalog.type_comp != 'Инверторный'))
         min_price = 1000000000000000
         for price in prices:
             if price != 1.0 and price < min_price:

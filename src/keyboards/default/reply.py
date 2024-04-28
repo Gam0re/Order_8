@@ -20,3 +20,5 @@ settings_kb = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text='Имя'), Keyb
                                             [KeyboardButton(text='Главное меню')]],
                                   resize_keyboard=True, one_time_keyboard=True)
 
+type_comp_kbd = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text='Инверторный'), KeyboardButton(text='Неинверторный')]],
+resize_keyboard=True, one_time_keyboard=True)
