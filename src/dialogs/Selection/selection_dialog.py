@@ -27,23 +27,32 @@ selection = Dialog(
             ),
             id="selected_items_group",
             height=6,
-            width=1
+            width=1,
+            hide_on_single_page=True
         ),
         Button(Const("На главную"), id="to_main", on_click=to_main),
         getter=get_current_products,
         state=SelectionStates.searching_products,),
     Window(
         StaticMedia(
-        url=Format('{image}'),
-        type=ContentType.PHOTO,
-    ),
+            url=Format('{image}'),
+            type=ContentType.PHOTO,
+        ),
         Format("Вы выбрали: {name}\n"
-               "Описание:\n"
-               "{description}\n"
-               "Цена: {price} Руб."),
-        Row(Button(Const("В корзину"), id="to_cart", on_click=to_cart), Button(Const("На главную"), id="to_main", on_click=to_main),
+               "Характеристика:\n"
+               "{type_comp}\n"
+               "{brend}\n"
+               "{garant}\n"
+               "{cold_pr}\n"
+               "{warm_pr}\n"
+               "{power_cons_cold}\n"
+               "{power_cons_warm}\n"
+               "{wifi}\n"
+               "Цена: {price}"),
+        Row(Button(Const("В корзину"), id="to_cart", on_click=to_cart),
+            Button(Const("На главную"), id="to_main", on_click=to_main),
             Back(Const("⬅ Назад"))),
         state=SelectionStates.view_product,
         getter=get_item,
-    ),
+    )
 )

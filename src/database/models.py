@@ -1,4 +1,4 @@
-from sqlalchemy import BigInteger, String, ForeignKey
+from sqlalchemy import BigInteger, String, ForeignKey, Null
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
 from src.data.config import database_url
@@ -56,7 +56,11 @@ class Catalog(Base):
     warm_pr: Mapped[str] = mapped_column(nullable=True)
     power_cons_cold: Mapped[str] = mapped_column(nullable=True)
     power_cons_warm: Mapped[str] = mapped_column(nullable=True)
+    power_cons_max: Mapped[float] = mapped_column(nullable=True)
     wifi: Mapped[str] = mapped_column(nullable=True)
+    square_min: Mapped[int] = mapped_column(nullable=True)
+    square_max: Mapped[int] = mapped_column(nullable=True)
+
 class lvl1_base(Base):
     __tablename__ = 'level_1'
 
@@ -96,12 +100,10 @@ async def async_main():
         reader = csv.reader(file, delimiter=';')
         header = list(next(reader))
         all_products = []
-
         for row in reader:
             new_line = {k: v for k, v in zip(header, row)}
             all_products.append(new_line)
         df = pd.DataFrame(all_products)
-        print(df)
         async with async_session() as session:
             for index, row in df.iterrows():
                 soap = BeautifulSoup(row[11], 'html.parser')
@@ -116,7 +118,6 @@ async def async_main():
                     type_comp = 'Отсутствует'
                 else:
                     type_comp = row[18]
-
                 if row[31] == '':
                     wifi = 'Отсутсвует'
                 else:
@@ -138,7 +139,7 @@ async def async_main():
                     'warm_pr': row[22],
                     'power_cons_cold': row[23],
                     'power_cons_warm': row[24],
-                    'wifi': wifi
+                    'wifi': wifi,
                 })
                 session.add(record)
 

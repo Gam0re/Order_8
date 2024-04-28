@@ -133,16 +133,15 @@ async def get_order_price(tg_id):
     for order in data:
         order_price += float((await get_product(order.product_id)).price) * int(order.quantity)
     return order_price
-async def get_max_and_min():
+async def get_min():
     async with async_session() as session:
-        max_price = await session.scalar(func.max(Catalog.price))
-        min_price = await session.scalar(func.min(Catalog.price))
-        return max_price, min_price
+        prices = await session.scalars(select(Catalog.price))
+        min_price = 1000000000000000
+        for price in prices:
+            if price != 1.0 and price < min_price:
+                min_price = price
+        return min_price
 
-async def get_control_types():
-    async with async_session() as session:
-        types = set(await session.scalars(select(Catalog.type_comp)))
-        return types
 
 
 
