@@ -1,4 +1,7 @@
 from aiogram import Router, types, F
+
+from aiogram_dialog import DialogManager
+
 from src.data.config import PAYMENTS_TOKEN
 from src.bot import bot
 import src.database.requests as rq
@@ -11,7 +14,8 @@ payment_router = Router()
 
 
 @payment_router.callback_query(F.data == 'to_payment')
-async def choose_payment_method(callback: types.CallbackQuery, state: FSMContext):
+async def choose_payment_method(callback: types.CallbackQuery, state: FSMContextk, dialog_manager: DialogManager):
+    await dialog_manager.done()
     await callback.message.delete()
     await bot.send_message(MANAGER_ID,
                            f"Новый заказ от пользователя @{callback.from_user.username} на сумму {await rq.get_order_price(callback.from_user.id)} руб.:\n" +

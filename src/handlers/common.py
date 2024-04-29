@@ -4,6 +4,8 @@ from aiogram.filters import CommandStart
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
 
+from aiogram_dialog import DialogManager
+
 import src.keyboards.default.reply as kb
 from src.keyboards.inline.select_opt import opt_kb
 import src.database.requests as rq
@@ -15,7 +17,8 @@ router = Router()
 @router.message(CommandStart())
 @router.message(F.data == 'to_main')
 @router.message(F.text == 'Главное меню')
-async def start(message: types.Message, state: FSMContext):
+async def start(message: types.Message, state: FSMContext, dialog_manager: DialogManager):
+    await dialog_manager.done()
     await message.answer('Вас приветствует интернет магазин кондиционеров "Центр климата", для начала выберите подходящуюю для вас категорию'
                          '', reply_markup=opt_kb)
     await state.set_state(default_state)
