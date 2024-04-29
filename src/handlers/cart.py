@@ -3,6 +3,8 @@ from aiogram import types, Router, F
 from aiogram.filters import Command
 from aiogram.types import InputMediaPhoto
 
+from aiogram_dialog import DialogManager
+
 from src.keyboards.inline.cart import cart_kb
 import src.database.requests as rq
 
@@ -13,7 +15,8 @@ cart_router = Router()
 @cart_router.message(Command('cart'))
 @cart_router.message(F.text == 'Корзина')
 @cart_router.callback_query(F.data == 'go_to_cart')
-async def get_carts(message: types.Message):
+async def get_carts(message: types.Message, dialog_manager: DialogManager):
+    await dialog_manager.done()
     data = await rq.orm_get_user_carts(message.from_user.id)
     order_price = await rq.get_order_price(message.from_user.id)
     if len(data) > 0:
