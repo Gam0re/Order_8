@@ -14,7 +14,7 @@ payment_router = Router()
 
 
 @payment_router.callback_query(F.data == 'to_payment')
-async def choose_payment_method(callback: types.CallbackQuery, state: FSMContextk, dialog_manager: DialogManager):
+async def choose_payment_method(callback: types.CallbackQuery, state: FSMContext, dialog_manager: DialogManager):
     await dialog_manager.done()
     await callback.message.delete()
     await bot.send_message(MANAGER_ID,
