@@ -3,6 +3,8 @@ from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
 
+from aiogram_dialog import DialogManager
+
 import src.keyboards.default.reply as kb
 import src.states.user as user_states
 from src.data.config import SUPPORT_ID
@@ -29,7 +31,8 @@ help_text = """
 @help_router.message(Command(commands='help'))
 @help_router.message(F.text == 'Помощь')
 @help_router.message(F.text == 'Назад', StateFilter(user_states.UserFSM.write_message))
-async def help_cmd(message: types.Message, state: FSMContext):
+async def help_cmd(message: types.Message, state: FSMContext, dialog_manager: DialogManager):
+    await dialog_manager.done()
     await message.answer(help_text, reply_markup=kb.help_kb)
     await state.set_state(user_states.UserFSM.help_menu)
 
