@@ -3,6 +3,8 @@ from aiogram.filters import Command, StateFilter, or_f
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
 
+from aiogram_dialog import DialogManager
+
 import src.database.requests as rq
 import src.keyboards.default.reply as kb
 import src.states.user as user_states
@@ -18,7 +20,8 @@ settings_router = Router()
                                                  StateFilter(user_states.UserFSM.write_name),
                                                  StateFilter(user_states.UserFSM.write_phone))
                          )
-async def settings_setup(message: types.Message, state: FSMContext):
+async def settings_setup(message: types.Message, state: FSMContext, dialog_manager: DialogManager):
+    await dialog_manager.done()
     await message.answer('Меню настроек', reply_markup=kb.settings_kb)
     await state.set_state(user_states.UserFSM.settings_menu)
 
