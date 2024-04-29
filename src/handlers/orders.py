@@ -2,6 +2,8 @@ from aiogram import types, Router, F
 
 from aiogram.filters import Command
 
+from aiogram_dialog import DialogManager
+
 import src.keyboards.inline.order as kb
 import src.database.requests as rq
 
@@ -12,7 +14,8 @@ order_router = Router()
 @order_router.message(Command('orders'))
 @order_router.message(F.text == 'Заказы')
 @order_router.message(F.data == 'main_orders')
-async def start_order(message: types.Message):
+async def start_order(message: types.Message, dialog_manager: DialogManager):
+    await dialog_manager.done()
     await message.answer("Выберите, что вы хотите посмотреть", reply_markup=kb.order_kb)
 
 @order_router.callback_query(F.data == 'in_progress')
