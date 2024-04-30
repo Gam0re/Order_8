@@ -27,7 +27,7 @@ async def start(message: types.Message, state: FSMContext, dialog_manager: Dialo
             'Вас приветствует интернет магазин кондиционеров "Центр климата", для начала выберите подходящуюю для вас категорию'
             '', reply_markup=opt_kb)
     else:
-        await message.answer(f'Вас приветствует интернет магазин кондиционеров {"Центр климата"}',
+        await message.answer(f'Вас приветствует интернет магазин кондиционеров "Центр климата"',
                              reply_markup=kb.start)
     await state.set_state(default_state)
 
