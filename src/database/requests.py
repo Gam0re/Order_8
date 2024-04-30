@@ -153,6 +153,11 @@ async def get_min(data):
                 min_price = price
         return min_price
 
+async def get_opt(tg_id):
+    async with async_session() as session:
+        opt = await session.scalar(select(User.opt).where(User.tg_id == tg_id))
+        return opt
+
 
 
 

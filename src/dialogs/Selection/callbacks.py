@@ -22,7 +22,7 @@ async def to_main(callback_query: CallbackQuery,
     widget: Button,
     dialog_manager: DialogManager,):
     await dialog_manager.done()
-    await callback_query.message.answer("Вас приветствует интернет магазин кондиционеров", reply_markup=kb.start)
+    await callback_query.message.answer('Вас приветствует интернет магазин кондиционеров "Центр климата"', reply_markup=kb.start)
 
 async def to_item(
     callback_query: CallbackQuery,

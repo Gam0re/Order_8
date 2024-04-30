@@ -2,11 +2,11 @@ from aiogram import Router, types, F
 
 from aiogram_dialog import DialogManager
 
-from src.data.config import PAYMENTS_TOKEN
+#from src.data.config import PAYMENTS_TOKEN
 from src.bot import bot
 import src.database.requests as rq
 from src.keyboards.inline.payment_method import payment_kb, product_availability
-from src.data.config import MANAGER_ID
+#from src.data.config import MANAGER_ID
 import src.states.user as user_states
 from aiogram.fsm.context import FSMContext
 

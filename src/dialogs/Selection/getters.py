@@ -15,6 +15,6 @@ async def get_current_products(dialog_manager: DialogManager, **middleware_data)
         else:
             db_main_items = await session.scalars(
                 select(Catalog).where(Catalog.price <= price, Catalog.type_comp != 'Инверторный'))
-        data = {'item': [(f'{item.name} ({item.price} Руб.)', item.id) for item in db_main_items]}
+        data = {'item': [(f'{item.name.split()[-1]} ({item.price} Руб.)', item.id) for item in db_main_items]}
         return data
 

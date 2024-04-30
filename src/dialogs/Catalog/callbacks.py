@@ -10,26 +10,6 @@ import src.database.requests as rq
 from ...keyboards.inline.cart import cart_kb
 
 
-#запись id для уровня 1
-async def selected_level1(
-    callback_query: CallbackQuery,
-    widget: Select,
-    dialog_manager: DialogManager,
-    item_id: str,
-):
-    dialog_manager.dialog_data["level_1"] = item_id
-    await dialog_manager.switch_to(Catalog_levels.level_2)
-
-#запись id для уровня 2
-async def selected_level2(
-    callback_query: CallbackQuery,
-    widget: Select,
-    dialog_manager: DialogManager,
-    item_id: str,
-):
-    dialog_manager.dialog_data["level_2"] = item_id
-    dialog_manager.dialog_data["user_id"] = callback_query.from_user.id
-    await dialog_manager.switch_to(Catalog_levels.level_3)
 
 #запись id для уровня 3
 async def selected_level3(
@@ -39,6 +19,7 @@ async def selected_level3(
     item_id: str,
 ):
     dialog_manager.dialog_data["level_3"] = item_id
+    dialog_manager.dialog_data["user_id"] = callback_query.from_user.id
     await dialog_manager.switch_to(Catalog_levels.level_4)
 
 #запись id для уровня 4
@@ -138,7 +119,7 @@ async def to_main(callback_query: CallbackQuery,
     widget: Button,
     dialog_manager: DialogManager,):
     await dialog_manager.done()
-    await callback_query.message.answer("Вас приветствует интернет магазин кондиционеров", reply_markup=kb.start)
+    await callback_query.message.answer('Вас приветствует интернет магазин кондиционеров "Центр климата"', reply_markup=kb.start)
 
 async def go_to_cart(
     callback_query: CallbackQuery,

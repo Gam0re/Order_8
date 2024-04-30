@@ -5,17 +5,12 @@ from .states import Catalog_levels
 from aiogram_dialog import DialogManager
 
 
-#получение значений для 2 уровня
-async def get_level_2(dialog_manager: DialogManager, **middleware_data):
-     async with async_session() as session:
-        db_lvl2 = await session.scalars(select(lvl2_base))
-        data = {'lvl2': [(level.level_2, level.id) for level in db_lvl2]}
-        return data
 
 #получение значений для 3 уровня
 async def get_level_3(dialog_manager: DialogManager, **middleware_data):
      async with async_session() as session:
-        lvl2_name = await session.scalar(select(lvl2_base.level_2).where(lvl2_base.id == int(dialog_manager.current_context().dialog_data.get('level_2'))))
+        lvl2_name = 'Сплит-системы'
+        dialog_manager.dialog_data['level_2'] = 1
         db_main = set(await session.scalars(select(Catalog.level_3).where(Catalog.level_2 == lvl2_name)))
         db_main_items = set(await session.scalars(select(Catalog).where(Catalog.level_2 == lvl2_name, Catalog.level_3 == '')))
         data = {'lvl3': [(level, await session.scalar(select(lvl3_base.id).where(lvl3_base.level_3 == level))) for level in db_main],
@@ -65,7 +60,7 @@ async def get_selected_items(dialog_manager: DialogManager, **middleware_data):
             lvl3_name = await session.scalar(select(lvl3_base.level_3).where(lvl3_base.id == int(dialog_manager.current_context().dialog_data.get('level_3'))))
             lvl4_name = await session.scalar(select(lvl4_base.level_4).where(lvl4_base.id == int(dialog_manager.current_context().dialog_data.get('level_4'))))
             db_main_items = set(await session.scalars(select(Catalog).where(Catalog.level_5 == '', Catalog.level_4 == lvl4_name, Catalog.level_3 == lvl3_name, Catalog.level_2 == lvl2_name)))
-            data = {'item': [(f'{item.name} ({item.price} Руб.)', item.id) for item in db_main_items]}
+            data = {'item': [(f'{item.name.split()[-1]} ({item.price} Руб.)', item.id) for item in db_main_items]}
             return data
         else:
             lvl2_name = await session.scalar(select(lvl2_base.level_2).where(lvl2_base.id == int(dialog_manager.current_context().dialog_data.get('level_2'))))
@@ -73,7 +68,7 @@ async def get_selected_items(dialog_manager: DialogManager, **middleware_data):
             lvl4_name = await session.scalar(select(lvl4_base.level_4).where(lvl4_base.id == int(dialog_manager.current_context().dialog_data.get('level_4'))))
             lvl5_name = await session.scalar(select(lvl5_base.level_5).where(lvl5_base.id == int(dialog_manager.current_context().dialog_data.get('level_5'))))
             db_main_items = set(await session.scalars(select(Catalog).where(Catalog.level_5 == lvl5_name, Catalog.level_4 == lvl4_name, Catalog.level_3 == lvl3_name, Catalog.level_2 == lvl2_name)))
-            data = {'item': [(f'{item.name} ({item.price} Руб.)', item.id) for item in db_main_items]}
+            data = {'item': [(f'{item.name.split()[-1]} ({item.price} Руб.)', item.id) for item in db_main_items]}
             return data
 
 
