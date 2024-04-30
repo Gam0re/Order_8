@@ -32,7 +32,10 @@ help_text = """
 @help_router.message(F.text == 'Помощь')
 @help_router.message(F.text == 'Назад', StateFilter(user_states.UserFSM.write_message))
 async def help_cmd(message: types.Message, state: FSMContext, dialog_manager: DialogManager):
-    await dialog_manager.done()
+    try:
+        await dialog_manager.done()
+    except:
+        pass
     await message.answer(help_text, reply_markup=kb.help_kb)
     await state.set_state(user_states.UserFSM.help_menu)
 

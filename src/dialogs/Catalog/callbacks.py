@@ -115,11 +115,11 @@ async def back(
     dialog_manager: DialogManager,
 ):
     if dialog_manager.current_context().dialog_data.get('select_items') == 'level_3':
-        await dialog_manager.switch_to(Catalog_levels.level_3)
+        await dialog_manager.switch_to(Catalog_levels.level_2)
     elif dialog_manager.current_context().dialog_data.get('select_items') == 'level_4':
-        await dialog_manager.switch_to(Catalog_levels.level_4)
+        await dialog_manager.switch_to(Catalog_levels.level_3)
     elif dialog_manager.current_context().dialog_data.get('select_items') == 'level_5':
-        await dialog_manager.switch_to(Catalog_levels.level_5)
+        await dialog_manager.switch_to(Catalog_levels.level_4)
     else:
         await dialog_manager.switch_to(Catalog_levels.level_5)
 

@@ -18,9 +18,12 @@ router = Router()
 @router.message(F.data == 'to_main')
 @router.message(F.text == 'Главное меню')
 async def start(message: types.Message, state: FSMContext, dialog_manager: DialogManager):
-    await dialog_manager.done()
+    try:
+        await dialog_manager.done()
+    except:
+        pass
     await message.answer('Вас приветствует интернет магазин кондиционеров "Центр климата", для начала выберите подходящуюю для вас категорию'
-                         '', reply_markup=opt_kb)
+                             '', reply_markup=opt_kb)
     await state.set_state(default_state)
 
 

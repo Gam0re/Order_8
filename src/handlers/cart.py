@@ -16,15 +16,17 @@ cart_router = Router()
 @cart_router.message(F.text == 'Корзина')
 @cart_router.callback_query(F.data == 'go_to_cart')
 async def get_carts(message: types.Message, dialog_manager: DialogManager):
-    await dialog_manager.done()
-    data = await rq.orm_get_user_carts(message.from_user.id)
-    order_price = await rq.get_order_price(message.from_user.id)
-    if len(data) > 0:
-        page = 0
-        media = await rq.orm_get_user_media(message.from_user.id, data[page].product_id, page+1, len(data))
-        await message.answer_photo(photo=media['photo'], caption=media['name'], reply_markup=cart_kb(page, order_price))
-    else:
-        await message.answer(text='Корзина пуста')
+    try:
+        await dialog_manager.done()
+    except:
+        data = await rq.orm_get_user_carts(message.from_user.id)
+        order_price = await rq.get_order_price(message.from_user.id)
+        if len(data) > 0:
+            page = 0
+            media = await rq.orm_get_user_media(message.from_user.id, data[page].product_id, page+1, len(data))
+            await message.answer_photo(photo=media['photo'], caption=media['name'], reply_markup=cart_kb(page, order_price))
+        else:
+            await message.answer(text='Корзина пуста')
 
 @cart_router.callback_query(F.data.startswith('next_'))
 async def get_carts_next(callback: types.CallbackQuery):

@@ -49,7 +49,7 @@ async def get_level_5(dialog_manager: DialogManager, **middleware_data):
             lvl3_name = await session.scalar(select(lvl3_base.level_3).where(lvl3_base.id == int(dialog_manager.current_context().dialog_data.get('level_3'))))
             lvl4_name = await session.scalar(select(lvl4_base.level_4).where(lvl4_base.id == int(dialog_manager.current_context().dialog_data.get('level_4'))))
             db_main_items = set(await session.scalars(select(Catalog).where(Catalog.level_4 == lvl4_name, Catalog.level_3 == lvl3_name, Catalog.level_2 == lvl2_name, Catalog.level_5 == '')))
-            data = {'item': [(item.name, item.id) for item in db_main_items]}
+            data = {'lvl5': [(item.name, item.id) for item in db_main_items]}
             return data
         else:
             print(data)

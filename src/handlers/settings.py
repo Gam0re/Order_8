@@ -21,7 +21,10 @@ settings_router = Router()
                                                  StateFilter(user_states.UserFSM.write_phone))
                          )
 async def settings_setup(message: types.Message, state: FSMContext, dialog_manager: DialogManager):
-    await dialog_manager.done()
+    try:
+        await dialog_manager.done()
+    except:
+        pass
     await message.answer('Меню настроек', reply_markup=kb.settings_kb)
     await state.set_state(user_states.UserFSM.settings_menu)
 

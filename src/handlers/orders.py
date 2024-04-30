@@ -11,11 +11,14 @@ order_router = Router()
 
 
 # команда заказы
-@order_router.message(Command('orders'))
+@order_router.message(Command(commands='orders'))
 @order_router.message(F.text == 'Заказы')
 @order_router.message(F.data == 'main_orders')
 async def start_order(message: types.Message, dialog_manager: DialogManager):
-    await dialog_manager.done()
+    try:
+        await dialog_manager.done()
+    except:
+        pass
     await message.answer("Выберите, что вы хотите посмотреть", reply_markup=kb.order_kb)
 
 @order_router.callback_query(F.data == 'in_progress')

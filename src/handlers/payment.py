@@ -15,13 +15,16 @@ payment_router = Router()
 
 @payment_router.callback_query(F.data == 'to_payment')
 async def choose_payment_method(callback: types.CallbackQuery, state: FSMContext, dialog_manager: DialogManager):
-    await dialog_manager.done()
+    try:
+        await dialog_manager.done()
+    except:
+        pass
     await callback.message.delete()
     await bot.send_message(MANAGER_ID,
-                           f"Новый заказ от пользователя @{callback.from_user.username} на сумму {await rq.get_order_price(callback.from_user.id)} руб.:\n" +
-                           "\n".join([(await rq.get_product(cart.product_id)).name for cart in
-                                      await rq.orm_get_user_carts(callback.from_user.id)]),
-                           reply_markup=product_availability)
+                               f"Новый заказ от пользователя @{callback.from_user.username} на сумму {await rq.get_order_price(callback.from_user.id)} руб.:\n" +
+                               "\n".join([(await rq.get_product(cart.product_id)).name for cart in
+                                          await rq.orm_get_user_carts(callback.from_user.id)]),
+                               reply_markup=product_availability)
     await callback.message.answer("Ваш заказ обработан и передан менеджеру для проверки наличия товара на складе")
     await state.update_data(user_chat_id=callback.message.chat.id)
 

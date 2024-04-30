@@ -54,7 +54,7 @@ Catalog_lvl1 = Dialog(
             hide_on_single_page=True
         ),
         Row(Button(Const("На главную"), id="to_main", on_click=to_main), Button(Const("Корзина"), id="go_to_cart", on_click=go_to_cart),
-            Button(Const("⬅ Назад"), id="back", on_click=back)),
+            Back(Const("⬅ Назад"))),
         state=Catalog_levels.level_3,
         getter=get_level_3,
     ),
@@ -74,7 +74,7 @@ Catalog_lvl1 = Dialog(
             hide_on_single_page=True
         ),
         Row(Button(Const("На главную"), id="to_main", on_click=to_main), Button(Const("Корзина"), id="go_to_cart", on_click=go_to_cart),
-            Button(Const("⬅ Назад"), id="back", on_click=back)),
+            Back(Const("⬅ Назад"))),
         state=Catalog_levels.level_4,
         getter=get_level_4,
     ),
@@ -94,7 +94,7 @@ Catalog_lvl1 = Dialog(
             hide_on_single_page=True
         ),
         Row(Button(Const("На главную"), id="to_main", on_click=to_main), Button(Const("Корзина"), id="go_to_cart", on_click=go_to_cart),
-            Button(Const("⬅ Назад"), id="back", on_click=back)),
+            Back(Const("⬅ Назад"))),
         state=Catalog_levels.level_5,
         getter=get_level_5,
     ),
