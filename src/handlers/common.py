@@ -24,7 +24,7 @@ async def start(message: types.Message, state: FSMContext, dialog_manager: Dialo
         pass
     if await rq.get_opt(message.from_user.id) is None:
         await message.answer(
-            'Вас приветствует интернет магазин кондиционеров "Центр климата", для начала выберите подходящуюю для вас категорию'
+            'Вас приветствует интернет магазин кондиционеров "Центр климата", для начала выберите подходящую для вас категорию'
             '', reply_markup=opt_kb)
     else:
         await message.answer(f'Вас приветствует интернет магазин кондиционеров "Центр климата"',

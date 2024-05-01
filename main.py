@@ -16,7 +16,7 @@ from aiogram_dialog import setup_dialogs
 from src.handlers.payment import payment_router
 
 async def main():
-    await async_main()
+    #await async_main()
     dp.include_router(router)
     dp.include_router(help_router)
     dp.include_router(catalog_router)
