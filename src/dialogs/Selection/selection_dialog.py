@@ -39,7 +39,7 @@ selection = Dialog(
             type=ContentType.PHOTO,
         ),
         Format("Вы выбрали: {name}\n"
-               "Цена: {price}"
+               "Цена: {price}\n"
                "Характеристика:\n"
                "{type_comp}\n"
                "{brend}\n"
@@ -48,7 +48,7 @@ selection = Dialog(
                "{warm_pr}\n"
                "{power_cons_cold}\n"
                "{power_cons_warm}\n"
-               "{wifi}\n"),
+               "{wifi}"),
         Row(Button(Const("В корзину"), id="to_cart", on_click=to_cart),
             Button(Const("На главную"), id="to_main", on_click=to_main),
             Back(Const("⬅ Назад"))),
