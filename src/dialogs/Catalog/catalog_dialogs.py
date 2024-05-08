@@ -30,7 +30,7 @@ Catalog_lvl1 = Dialog(
                 on_click=selected_level3,
             ),
             id="lvl3_group",
-            height=5,
+            height=7,
             width=1,
             hide_on_single_page=True
         ),
@@ -49,7 +49,7 @@ Catalog_lvl1 = Dialog(
                 on_click=selected_level4,
             ),
             id="lvl4_group",
-            height=6,
+            height=7,
             width=1,
             hide_on_single_page=True
         ),
@@ -69,7 +69,7 @@ Catalog_lvl1 = Dialog(
                 on_click=selected_level5,
             ),
             id="lvl5_group",
-            height=6,
+            height=7,
             width=1,
             hide_on_single_page=True
         ),
@@ -89,7 +89,7 @@ Catalog_lvl1 = Dialog(
                 on_click=to_item,
             ),
             id="selected_items_group",
-            height=6,
+            height=7,
             width=1,
             hide_on_single_page=True
         ),

@@ -5,12 +5,12 @@ from sqlalchemy import select, or_, delete, func, and_,update
 
 
 
-async def set_user(tg_id, opt):
+async def set_user(tg_id):
     async with async_session() as session:
         user = await session.scalar(select(User).where(User.tg_id == tg_id))
 
         if not user:
-            session.add(User(tg_id=tg_id, opt=opt))
+            session.add(User(tg_id=tg_id))
             await session.commit()
 
 async def orm_add_to_cart(tg_id: int, product_id: int):
@@ -62,11 +62,7 @@ async def orm_get_user_media(tg_id, product_id, page, pages):
     async with async_session() as session:
         result = await session.scalar(select(Catalog).where(Catalog.id == product_id))
         quantity = await session.scalar(select(Cart.quantity).where(Cart.product_id == product_id, Cart.tg_id == tg_id, Cart.status == 'shop'))
-        opt = await session.scalar(select(User.opt).where(User.tg_id == tg_id))
-        if opt:
-            total_price = float(result.price) * 0.9 * float(quantity)
-        else:
-            total_price = float(result.price) * float(quantity)
+        total_price = float(result.price) * 0.85 * float(quantity)
         if result.image == '':
             image = 'https://cdn-icons-png.flaticon.com/512/4054/4054617.png'
         else:
@@ -153,10 +149,6 @@ async def get_min(data):
                 min_price = price
         return min_price
 
-async def get_opt(tg_id):
-    async with async_session() as session:
-        opt = await session.scalar(select(User.opt).where(User.tg_id == tg_id))
-        return opt
 
 
 

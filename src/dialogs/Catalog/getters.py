@@ -86,11 +86,7 @@ async def get_item(dialog_manager: DialogManager, **middleware_data):
             else:
                 image = db_main.image
 
-        opt = await session.scalar(select(User.opt).where(User.tg_id == int(dialog_manager.current_context().dialog_data.get('user_id'))))
-        if opt:
-            price = f'{float(db_main.price) * 0.9} скидка ({float(db_main.price) - (float(db_main.price) * 0.9)}) Руб.'
-        else:
-            price = f'{float(db_main.price)} Руб.'
+        price = f'{float(db_main.price) * 0.85} скидка ({float(db_main.price) - (float(db_main.price) * 0.9)}) Руб.'
 
         data = {'name': db_main.name,
                 'image': image,

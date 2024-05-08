@@ -25,7 +25,6 @@ class User(Base):
     tg_id: Mapped[int] = mapped_column(BigInteger)
     name: Mapped[str] = mapped_column(String(50), nullable=True)
     phone: Mapped[str] = mapped_column(String(20), nullable=True)
-    opt: Mapped[bool] = mapped_column()
 
 class Cart(Base):
     __tablename__ = 'cart'
