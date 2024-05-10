@@ -1,6 +1,6 @@
 from src.utils.funcs import get_image_ratio, get_image_size
 from src.database.models import async_session, User, Catalog, Cart
-from sqlalchemy import select, or_, delete, func, and_,update
+from sqlalchemy import select, delete
 
 
 
@@ -135,7 +135,8 @@ async def get_order_price(tg_id):
     order_price = 0
     for order in data:
         order_price += float((await get_product(order.product_id)).price) * int(order.quantity)
-    return order_price
+    return order_price * 0.85
+
 async def get_min(data):
     async with async_session() as session:
         type_comp = data['user_type_comp']
@@ -148,6 +149,7 @@ async def get_min(data):
             if price != 1.0 and price < min_price:
                 min_price = price
         return min_price
+
 
 
 

@@ -12,6 +12,7 @@ from src.handlers.cart import cart_router
 from src.handlers.orders import order_router
 from src.dialogs.Catalog.catalog_dialogs import Catalog_lvl1
 from src.dialogs.Selection.selection_dialog import selection
+from src.dialogs.Cart.cart_dialogs import Cart
 from aiogram_dialog import setup_dialogs
 from src.handlers.payment import payment_router
 
@@ -28,6 +29,7 @@ async def main():
     dp.include_router(payment_router)
     dp.include_router(Catalog_lvl1)
     dp.include_router(selection)
+    dp.include_router(Cart)
     setup_dialogs(dp)
     await set_main_menu(bot)
     await dp.start_polling(bot)

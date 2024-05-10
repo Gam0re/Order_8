@@ -7,13 +7,12 @@ from src.bot import bot
 import src.database.requests as rq
 from src.keyboards.inline.payment_method import payment_kb, product_availability
 from src.data.config import MANAGER_ID
-import src.states.user as user_states
 from aiogram.fsm.context import FSMContext
 
 payment_router = Router()
 
 
-@payment_router.callback_query(F.data == 'to_payment')
+@payment_router.callback_query(F.data == 'agree')
 async def choose_payment_method(callback: types.CallbackQuery, state: FSMContext, dialog_manager: DialogManager):
     try:
         await dialog_manager.done()

@@ -1,4 +1,4 @@
-from src.database.models import async_session, Catalog, lvl1_base, lvl2_base, lvl3_base, lvl4_base, lvl5_base, User
+from src.database.models import async_session, Catalog, lvl2_base, lvl3_base, lvl4_base, lvl5_base
 from sqlalchemy import select
 from src.utils.funcs import get_image_size, get_image_ratio
 from .states import Catalog_levels
@@ -86,7 +86,7 @@ async def get_item(dialog_manager: DialogManager, **middleware_data):
             else:
                 image = db_main.image
 
-        price = f'{float(db_main.price) * 0.85} скидка ({float(db_main.price) - (float(db_main.price) * 0.9)}) Руб.'
+        price = f'{float(db_main.price) * 0.85} скидка ({float(db_main.price) - (float(db_main.price) * 0.85)}) Руб.'
 
         data = {'name': db_main.name,
                 'image': image,

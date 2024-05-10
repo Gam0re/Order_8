@@ -1,15 +1,16 @@
 from aiogram.types import CallbackQuery, InputMediaPhoto
-from aiogram_dialog import DialogManager
+from aiogram_dialog import DialogManager, StartMode
 from aiogram_dialog.widgets.kbd import Button, Select
 from .states import Catalog_levels
+from ..Cart.states import Cart_levels
 from ...database.requests import orm_add_to_cart
 import src.keyboards.default.reply as kb
 from src.database.models import async_session, Catalog, lvl2_base, lvl3_base, lvl4_base, lvl5_base
 from sqlalchemy import select
 import src.database.requests as rq
 from ...keyboards.inline.cart import cart_kb
-
-
+from aiogram.fsm.context import FSMContext
+import src.states.user as user_states
 
 #запись id для уровня 3
 async def selected_level3(
@@ -128,13 +129,5 @@ async def go_to_cart(
 ):
     await callback_query.answer('Корзина')
     await dialog_manager.done()
-    data = await rq.orm_get_user_carts(callback_query.from_user.id)
-    order_price = await rq.get_order_price(callback_query.from_user.id)
-    if len(data) > 0:
-        page = 0
-        media = await rq.orm_get_user_media(callback_query.from_user.id, data[page].product_id, page+1, len(data))
-        await callback_query.message.delete()
-        await callback_query.message.answer_photo(photo=media['photo'], caption=media['name'], reply_markup=cart_kb(page, order_price))
-    else:
-        await callback_query.message.delete()
-        await callback_query.message.answer(text='Корзина пуста')
+
+    await dialog_manager.start(Cart_levels.select_products, data={'user_id': callback_query.from_user.id}, mode=StartMode.RESET_STACK)

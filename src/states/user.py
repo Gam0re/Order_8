@@ -16,4 +16,4 @@ class UserFSM(StatesGroup):
     choosing_power = State()
     write_price = State()
 
-
+    choosing_cart = State()
