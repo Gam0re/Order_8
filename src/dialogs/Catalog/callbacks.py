@@ -8,7 +8,6 @@ import src.keyboards.default.reply as kb
 from src.database.models import async_session, Catalog, lvl2_base, lvl3_base, lvl4_base, lvl5_base
 from sqlalchemy import select
 import src.database.requests as rq
-from ...keyboards.inline.cart import cart_kb
 from aiogram.fsm.context import FSMContext
 import src.states.user as user_states
 
