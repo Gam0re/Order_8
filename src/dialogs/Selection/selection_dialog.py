@@ -26,7 +26,7 @@ selection = Dialog(
                 text=Format("{item[0]}"),
             ),
             id="selected_items_group",
-            height=6,
+            height=10,
             width=1,
             hide_on_single_page=True
         ),
