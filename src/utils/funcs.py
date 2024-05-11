@@ -10,7 +10,7 @@ async def get_image_size(url):
         content_length = headers.get('Content-Length')
         if content_length:
             size_in_bytes = int(content_length)
-            size_in_mb = size_in_bytes / 1048576
+            size_in_mb = size_in_bytes / 1000000
             return size_in_mb
         else:
             return None
