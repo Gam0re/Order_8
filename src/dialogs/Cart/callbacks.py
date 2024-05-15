@@ -7,7 +7,7 @@ from ..Catalog.states import Catalog_levels
 import src.keyboards.default.reply as kb
 
 import src.database.requests as rq
-from ...keyboards.inline.payment_method import yes_no_kb
+from ...keyboards.inline.order_registration_kb import yes_no_kb
 
 
 
@@ -67,7 +67,7 @@ async def to_order(callback: CallbackQuery,
     widget: Button,
     dialog_manager: DialogManager):
     await dialog_manager.done()
-    await callback.answer('Оплата')
+    await callback.answer('Оформление заказа')
     await callback.message.delete()
     await callback.message.answer('Вы уверены?', reply_markup=yes_no_kb)
 

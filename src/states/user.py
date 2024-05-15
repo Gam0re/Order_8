@@ -10,7 +10,6 @@ class UserFSM(StatesGroup):
     rewrite_name = State()
     rewrite_phone = State()
 
-
     choosing_control_type = State()
     choosing_square = State()
     choosing_power = State()

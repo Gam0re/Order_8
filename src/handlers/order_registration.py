@@ -1,0 +1,52 @@
+from aiogram import Router, types, F
+
+from aiogram_dialog import DialogManager
+
+from src.bot import bot
+import src.database.requests as rq
+from aiogram.fsm.context import FSMContext
+
+from src.data.config import MANAGER_ID
+from src.handlers.registration import start_registration_name
+from src.keyboards.inline.order_registration_kb import product_availability
+
+order_registration_router = Router()
+
+
+@order_registration_router.callback_query(F.data == 'agree')
+async def checking_phone_number(callback: types.CallbackQuery, state: FSMContext, dialog_manager: DialogManager):
+    try:
+        await dialog_manager.done()
+    except:
+        pass
+    phone = await rq.get_number(callback.from_user.id)
+    if not phone:
+        await callback.message.delete()
+        await state.update_data(from_settings_registration=False)
+        await start_registration_name(callback.message, state)
+    else:
+        await checking_product_availability(callback)
+
+
+@order_registration_router.callback_query(F.data == 'continue')
+async def checking_product_availability(callback: types.CallbackQuery):
+    await callback.message.delete()
+    await bot.send_message(MANAGER_ID,
+                           f"Новый заказ от пользователя @{callback.from_user.username} Номер телефона: {await rq.get_number(callback.from_user.id)} User id: {callback.from_user.id} Сумма заказа: {await rq.get_order_price(callback.from_user.id)} руб.:\n" +
+                           "\n".join([(await rq.get_product(cart.product_id)).name for cart in
+                                      await rq.orm_get_user_carts(callback.from_user.id)]),
+                           reply_markup=product_availability)
+    await callback.message.answer("Ваш заказ обработан и передан менеджеру для проверки наличия товара на складе")
+
+
+@order_registration_router.callback_query(F.data == 'available')
+async def process_product_in_stock(callback: types.CallbackQuery):
+    user_id = int(callback.message.text[callback.message.text.find('User id:') + 9:callback.message.text.find(' Сумма заказа:')])
+    await bot.send_message(user_id, "Хорошие новости, товар есть в наличии\nОжидайте дальнейшей связи с менеджером")
+    await rq.orm_update_status(user_id, 'shop', 'in_progress')
+
+
+@order_registration_router.callback_query(F.data == 'unavailable')
+async def process_product_out_of_stock(callback: types.CallbackQuery):
+    user_id = int(callback.message.text[callback.message.text.find('User id:') + 9:callback.message.text.find(' Сумма заказа:')])
+    await bot.send_message(user_id, "К сожалению, в данный момент товара нет в наличии")

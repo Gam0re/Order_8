@@ -33,6 +33,7 @@ async def settings_setup(message: types.Message, state: FSMContext, dialog_manag
 async def setting_name(message: types.Message, state: FSMContext):
     name = await rq.get_name(tg_id=message.from_user.id)
     if not name:
+        await state.update_data(from_settings_registration=True)
         await start_registration_name(message, state)
     else:
         await message.answer(f"Ваше ФИО: {name}\nНовое значение", reply_markup=kb.back_kb)
@@ -43,6 +44,7 @@ async def setting_name(message: types.Message, state: FSMContext):
 async def setting_phone(message: types.Message, state: FSMContext):
     phone = await rq.get_number(tg_id=message.from_user.id)
     if not phone:
+        await state.update_data(from_settings_registration=True)
         await start_registration_name(message, state)
     else:
         await message.answer(f"Ваш номер: {phone}\nНовое значение", reply_markup=kb.back_kb)
