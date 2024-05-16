@@ -11,7 +11,7 @@ order_router = Router()
 
 
 # команда заказы
-@order_router.message(Command(commands='orders'))
+@order_router.message(Command('orders'))
 @order_router.message(F.text == 'Заказы')
 @order_router.message(F.data == 'main_orders')
 async def start_order(message: types.Message, dialog_manager: DialogManager):

@@ -1,9 +1,7 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-
-payment_kb = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text='Картой', callback_data='card'),
-     InlineKeyboardButton(text='Наличными при получении', callback_data='cash')],
+continuing_order_registration = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='Продолжить оформление заказа', callback_data='continue')],
 ])
 
 product_availability = InlineKeyboardMarkup(inline_keyboard=[
