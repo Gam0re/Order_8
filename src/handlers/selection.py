@@ -35,7 +35,7 @@ async def selection_control_type(message: types.Message, state: FSMContext):
             await state.update_data(user_type_comp=type_comp)
             min_price = await rq.get_min(await state.get_data())
             await state.update_data(min_price=min_price)
-            await message.answer(text=f'Нaпишите стоимость начиная от {min_price} в рублях (напишите только число)', reply_markup=kb.start)
+            await message.answer(text=f'Нaпишите стоимость начиная от {min_price} в рублях (напишите только число)', reply_markup=None)
             await state.set_state(user_states.UserFSM.write_price)
     else :
         await state.set_state(default_state)

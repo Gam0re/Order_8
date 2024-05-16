@@ -4,7 +4,7 @@ start = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text='Каталог'), KeyboardButton(text='Подбор')],
     [KeyboardButton(text='Заказы'), KeyboardButton(text='Корзина')],
     [KeyboardButton(text='Настройки'), KeyboardButton(text='Помощь')],
-], resize_keyboard=True, one_time_keyboard=True, input_field_placeholder='Выберете необходимую опцию')
+], resize_keyboard=True, input_field_placeholder='Выберете необходимую опцию')
 
 help_kb = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text='Позвонить'), KeyboardButton(text='Написать')],
