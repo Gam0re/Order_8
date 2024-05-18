@@ -32,7 +32,7 @@ async def checking_phone_number(callback: types.CallbackQuery, state: FSMContext
 async def checking_product_availability(callback: types.CallbackQuery):
     await callback.message.delete()
     await bot.send_message(MANAGER_ID,
-                           f"Новый заказ от пользователя @{callback.from_user.username} Номер телефона: {await rq.get_number(callback.from_user.id)} User id: {callback.from_user.id} Сумма заказа: {await rq.get_order_price(callback.from_user.id)} руб.:\n" +
+                           f"Новый заказ от пользователя @{callback.from_user.username} на имя:{await rq.get_name(callback.from_user.id)} Номер телефона: {await rq.get_number(callback.from_user.id)} User id: {callback.from_user.id} Сумма заказа: {await rq.get_order_price(callback.from_user.id)} руб.:\n" +
                            "\n".join([(await rq.get_product(cart.product_id)).name for cart in
                                       await rq.orm_get_user_carts(callback.from_user.id)]),
                            reply_markup=product_availability)
