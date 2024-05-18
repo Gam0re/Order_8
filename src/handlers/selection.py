@@ -19,12 +19,12 @@ pattern = '\s{0,}?\d+[,.]?\d{0,}?\s{0,}?\D{0,}?'
 @selection_router.message(Command(commands='selection'))
 @selection_router.message(F.text == 'Подбор')
 async def selection_control_type(message: types.Message, state: FSMContext, dialog_manager: DialogManager):
-        try:
-            await dialog_manager.done()
-        except:
-            pass
-        await message.answer(text='Выберете тип управления компрессором', reply_markup=kb.type_comp_kbd)
-        await state.set_state(user_states.UserFSM.choosing_control_type)
+    try:
+        await dialog_manager.done()
+    except:
+        pass
+    await message.answer(text='Выберете тип управления компрессором', reply_markup=kb.type_comp_kbd)
+    await state.set_state(user_states.UserFSM.choosing_control_type)
 
 
 @selection_router.message(F.text, StateFilter(user_states.UserFSM.choosing_control_type))

@@ -29,7 +29,7 @@ async def settings_setup(message: types.Message, state: FSMContext, dialog_manag
     await state.set_state(user_states.UserFSM.settings_menu)
 
 
-@settings_router.message(F.text == 'Имя', StateFilter(user_states.UserFSM.settings_menu))
+@settings_router.message(F.text == 'Имя')
 async def setting_name(message: types.Message, state: FSMContext):
     name = await rq.get_name(tg_id=message.from_user.id)
     if not name:
@@ -40,7 +40,7 @@ async def setting_name(message: types.Message, state: FSMContext):
         await state.set_state(user_states.UserFSM.rewrite_name)
 
 
-@settings_router.message(F.text == 'Номер', StateFilter(user_states.UserFSM.settings_menu))
+@settings_router.message(F.text == 'Номер')
 async def setting_phone(message: types.Message, state: FSMContext):
     phone = await rq.get_number(tg_id=message.from_user.id)
     if not phone:
