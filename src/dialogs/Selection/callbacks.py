@@ -14,7 +14,7 @@ async def to_cart(
     widget: Button,
     dialog_manager: DialogManager,
 ):
-    await orm_add_to_cart(tg_id=callback_query.from_user.id, product_id=int(dialog_manager.current_context().dialog_data.get('item_id')))
+    await orm_add_to_cart(tg_id=callback_query.from_user.id, product_id=int(dialog_manager.current_context().dialog_data.get('item_id')), quant=dialog_manager.dialog_data["quant"])
     await callback_query.answer("Товар добавлен в корзину")
     await dialog_manager.switch_to(SelectionStates.searching_products)
 
@@ -31,4 +31,30 @@ async def to_item(
     item_id: str,
 ):
     dialog_manager.dialog_data["item_id"] = item_id
+    dialog_manager.dialog_data["quant"] = 1
     await dialog_manager.switch_to(SelectionStates.view_product)
+
+async def increment(
+    callback_query: CallbackQuery,
+    widget: Button,
+    dialog_manager: DialogManager,
+):
+    dialog_manager.dialog_data["quant"] += 1
+
+async def decrement(
+    callback_query: CallbackQuery,
+    widget: Button,
+    dialog_manager: DialogManager,
+):
+    if dialog_manager.dialog_data["quant"] > 1:
+        dialog_manager.dialog_data["quant"] -= 1
+    else:
+        await callback_query.answer('Нельзя уменьшить количество')
+        dialog_manager.dialog_data["quant"] = 1
+
+async def quant(
+    callback_query: CallbackQuery,
+    widget: Button,
+    dialog_manager: DialogManager,
+):
+    await callback_query.answer(f'Количество: {dialog_manager.dialog_data["quant"]}')

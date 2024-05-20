@@ -14,7 +14,7 @@ import operator
 from .states import Catalog_levels
 from .getters import get_level_4, get_level_5, get_level_3, get_item, get_selected_items
 from .callbacks import selected_level3, selected_level4, selected_level5, \
-    selected_item3, to_item, back, selected_item4,selected_item5, to_cart, to_main, go_to_cart
+    selected_item3, to_item, back, selected_item4,selected_item5, to_cart, to_main, go_to_cart, increment, decrement, quant
 
 
 
@@ -114,6 +114,7 @@ Catalog_lvl1 = Dialog(
                "{power_cons_cold}\n"
                "{power_cons_warm}\n"
                "{wifi}"),
+        Row(Button(Const("+"), id="increment", on_click=increment), Button(Format('Количество: {quant}'), id="quant", on_click=quant), Button(Const("-"), id="decrement", on_click=decrement)),
         Row(Button(Const("В корзину"), id="to_cart", on_click=to_cart), Button(Const("На главную"), id="to_main", on_click=to_main),
             Back(Const("⬅ Назад"))),
         state=Catalog_levels.item,

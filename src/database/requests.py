@@ -13,17 +13,17 @@ async def set_user(tg_id):
             session.add(User(tg_id=tg_id))
             await session.commit()
 
-async def orm_add_to_cart(tg_id: int, product_id: int):
+async def orm_add_to_cart(tg_id: int, product_id: int, quant: int):
     async with async_session() as session:
         query = select(Cart).where(Cart.tg_id == tg_id, Cart.product_id == product_id)
         cart = await session.execute(query)
         cart = cart.scalar()
         if cart:
-            cart.quantity += 1
+            cart.quantity += quant
             await session.commit()
             return cart
         else:
-            session.add(Cart(tg_id=tg_id, product_id=product_id, quantity=1, status='shop'))
+            session.add(Cart(tg_id=tg_id, product_id=product_id, quantity=quant, status='shop'))
 
             await session.commit()
 

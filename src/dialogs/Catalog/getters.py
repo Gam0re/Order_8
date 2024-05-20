@@ -98,7 +98,8 @@ async def get_item(dialog_manager: DialogManager, **middleware_data):
                 'warm_pr': f'Теплопроизводительность: {db_main.warm_pr} кВт',
                 'power_cons_cold': f'Потребляемая мощность (охлаждение): {db_main.power_cons_cold} кВт',
                 'power_cons_warm': f'Потребляемая мощность (обогрев): {db_main.power_cons_warm} кВт',
-                'wifi': f'Wi-fi: {db_main.wifi}'
+                'wifi': f'Wi-fi: {db_main.wifi}',
+                'quant': dialog_manager.current_context().dialog_data.get('quant')
                 }
 
         return data

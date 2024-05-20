@@ -10,7 +10,7 @@ from aiogram_dialog.widgets.kbd import (
 from aiogram_dialog.widgets.text import Const, Format
 from aiogram.types import ContentType
 import operator
-from src.dialogs.Selection.callbacks import to_main, to_item, to_cart
+from src.dialogs.Selection.callbacks import to_main, to_item, to_cart, increment, decrement, quant
 from src.dialogs.Selection.getters import get_current_products
 from src.dialogs.Selection.selection_states import SelectionStates
 from src.dialogs.Catalog.getters import get_item
@@ -49,6 +49,7 @@ selection = Dialog(
                "{power_cons_cold}\n"
                "{power_cons_warm}\n"
                "{wifi}"),
+        Row(Button(Const("+"), id="increment", on_click=increment), Button(Format('Количество: {quant}'), id="quant", on_click=quant), Button(Const("-"), id="decrement", on_click=decrement)),
         Row(Button(Const("В корзину"), id="to_cart", on_click=to_cart),
             Button(Const("На главную"), id="to_main", on_click=to_main),
             Back(Const("⬅ Назад"))),
