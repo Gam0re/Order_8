@@ -44,9 +44,11 @@ async def process_product_in_stock(callback: types.CallbackQuery):
     user_id = int(callback.message.text[callback.message.text.find('User id:') + 9:callback.message.text.find(' Сумма заказа:')])
     await bot.send_message(user_id, "Хорошие новости, товар есть в наличии\nОжидайте дальнейшей связи с менеджером")
     await rq.orm_update_status(user_id, 'shop', 'in_progress')
+    await callback.message.edit_text(callback.message.text + "\nВЫ ОТВЕТИЛИ НА ЭТУ ЗАЯВКУ, ЧТО ТОВАР ЕСТЬ В НАЛИЧИИ")
 
 
 @order_registration_router.callback_query(F.data == 'unavailable')
 async def process_product_out_of_stock(callback: types.CallbackQuery):
     user_id = int(callback.message.text[callback.message.text.find('User id:') + 9:callback.message.text.find(' Сумма заказа:')])
     await bot.send_message(user_id, "К сожалению, в данный момент товара нет в наличии")
+    await callback.message.edit_text(callback.message.text + "\nВЫ ОТВЕТИЛИ НА ЭТУ ЗАЯВКУ, ЧТО ТОВАРА НЕТ В НАЛИЧИИ")

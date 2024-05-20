@@ -15,6 +15,7 @@ from src.dialogs.Selection.selection_dialog import selection
 from src.dialogs.Cart.cart_dialogs import Cart
 from aiogram_dialog import setup_dialogs
 from src.handlers.order_registration import order_registration_router
+from aiogram.utils.deep_linking import create_start_link
 
 async def main():
     #await async_main()
@@ -31,6 +32,7 @@ async def main():
     dp.include_router(Cart)
     dp.include_router(selection)
     setup_dialogs(dp)
+    await create_start_link(bot, '')
     await set_main_menu(bot)
     await dp.start_polling(bot)
 
