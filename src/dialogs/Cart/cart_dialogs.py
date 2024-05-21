@@ -45,7 +45,7 @@ Cart = Dialog(
     ),
         Format("Вы выбрали: {name}\n"
                "Цена: {price}\n"
-               "Кол-во: {quantity}\n"
+               "Количество: {quantity}\n"
                "Итоговая цена: {total_price_card}"),
         Row(Button(Const("Удалить"), id="delete", on_click=delete), Button(Const("+"), id="increase", on_click=increase),
             Button(Const("-"), id="reduce", on_click=reduce)),

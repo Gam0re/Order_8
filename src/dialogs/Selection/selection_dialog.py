@@ -49,7 +49,7 @@ selection = Dialog(
                "{power_cons_cold}\n"
                "{power_cons_warm}\n"
                "{wifi}"),
-        Row(Button(Const("+"), id="increment", on_click=increment), Button(Format('Количество: {quant}'), id="quant", on_click=quant), Button(Const("-"), id="decrement", on_click=decrement)),
+        Row(Button(Const("+"), id="increment", on_click=increment), Button(Format('Кол-во: {quant}'), id="quant", on_click=quant), Button(Const("-"), id="decrement", on_click=decrement)),
         Row(Button(Const("В корзину"), id="to_cart", on_click=to_cart),
             Button(Const("На главную"), id="to_main", on_click=to_main),
             Back(Const("⬅ Назад"))),
