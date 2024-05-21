@@ -1,10 +1,11 @@
 from aiogram import Router, types, F
 
 from aiogram_dialog import DialogManager
+from aiogram_dialog.widgets.kbd import Button
 
 from src.bot import bot
 import src.database.requests as rq
-from aiogram.fsm.context import FSMContext
+
 
 from src.data.config import MANAGER_ID
 from src.handlers.registration import start_registration_name
@@ -13,8 +14,9 @@ from src.keyboards.inline.order_registration_kb import product_availability
 order_registration_router = Router()
 
 
-@order_registration_router.callback_query(F.data == 'agree')
-async def checking_phone_number(callback: types.CallbackQuery, state: FSMContext, dialog_manager: DialogManager):
+#@order_registration_router.callback_query(F.data == 'agree')
+async def checking_phone_number(callback: types.CallbackQuery, widget: Button, dialog_manager: DialogManager):
+    state = dialog_manager.middleware_data.get('state')
     try:
         await dialog_manager.done()
     except:
