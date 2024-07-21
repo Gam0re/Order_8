@@ -1,0 +1,80 @@
+{
+    "texts": {
+        "cart": {
+            
+        },
+        "catalog": {
+
+        },
+        "common": {
+
+        },
+        "help_cmd": {
+
+        },
+        "orders": {
+
+        },
+        "payment": {
+
+        },
+        "registraion": {
+
+        },
+        "selection": {
+
+        },
+        "settings": {
+
+        }
+    },
+    "routers": [
+        "router",
+        "help_router",
+        "selection",
+        "cart_router",
+        "selection_router",
+        "settings_router",
+        "registration_router",
+        "order_router",
+        "payment_router"
+    ],
+    "commands": {
+        "catalog": {
+            "text": "Каталог",
+            "command_name": "/catalog"
+        },
+        "cart": {
+            "text": "Корзина",
+            "command_name": "/cart"
+        },
+        "orders": {
+            "text": "Заказы",
+            "command_name": "/orders"
+        },
+        "settings": {
+            "text": "Настройки",
+            "command_name": "/settings"
+        },
+        "help": {
+            "text": "Справка",
+            "command_name": "/help"
+        },
+        "start": {
+            "text": "Главное меню",
+            "command_name": "/start"
+        },
+        "news": {
+            "text": "Новости",
+            "command_name": "/news"
+        },
+        "selection": {
+            "text": "Подбор",
+            "command_name": "/selection"
+        }
+    },
+    "service_settings": {
+        "bot_token": "DNiADbfASJfEUEKBJEFEESsadffe",
+        "support_id": 642500259
+    }
+}
