@@ -10,27 +10,13 @@ from src.bot import bot
 
 help_router = Router()
 
-help_text = """
-Список команд:
-/catalog - Каталог
-/cart — Корзина
-/history — История заказов
-/settings — Настройки
-/help — Справка
-/start — Главное меню
-/delivery — Информация о доставке
-/news — Новости
-        
-Ответы на часто задаваемые вопросы:
+help_cmd_config = ... #тут подгрузить bot_config.json["texts"]["help_cmd"]
 
-"""
-
-
-@help_router.message(Command(commands='help'))
-@help_router.message(F.text == 'Помощь')
+@help_router.message(Command(commands=help_cmd_config["command"]))
+@help_router.message(F.text == help_cmd_config["reply_button"])
 @help_router.message(F.text == 'Назад', StateFilter(user_states.UserFSM.write_message))
 async def help_cmd(message: types.Message, state: FSMContext):
-    await message.answer(help_text, reply_markup=kb.help_kb)
+    await message.answer(help_cmd_config["main_help_text"], reply_markup=kb.help_kb)
     await state.set_state(user_states.UserFSM.help_menu)
 
 

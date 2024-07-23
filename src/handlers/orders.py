@@ -7,10 +7,11 @@ import src.database.requests as rq
 
 order_router = Router()
 
+orders_config = ... #тут подгрузить bot_config.json["texts"]["orders"]
 
 # команда заказы
-@order_router.message(Command('orders'))
-@order_router.message(F.text == 'Заказы')
+@order_router.message(Command(orders_config["command"]))
+@order_router.message(F.text == orders_config["reply_button"])
 @order_router.message(F.data == 'main_orders')
 async def start_order(message: types.Message):
     await message.answer("Выберите, что вы хотите посмотреть", reply_markup=kb.order_kb)

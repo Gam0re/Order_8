@@ -1,24 +1,38 @@
 {
     "texts": {
         "cart": {
-            
+            "command": "cart",
+            "reply_button": "Корзина",
+            "empty": "Корзина пуста",
+            "next_page": "Вперед",
+            "back_page": "Назад",
+            "no_pages": "Больше страниц нет",
+            "first_page": "Это самая первая страница",
+            "deleted_item": "Вы удалили товар",
+            "out_item": "Вы убрали товар",
+            "added_item": "Вы добавили товар"
         },
         "catalog": {
-
+            "command": "catalog",
+            "reply_button": "Каталог"
         },
         "common": {
-
+            "reply_button": "Главное меню",
+            "start_text": "Вас приветствует интернет магазин кондиционеров"
         },
         "help_cmd": {
-
+            "command": "help",
+            "reply_button": "Помощь",
+            "main_help_text": "Список команд:\n/catalog - Каталог\n/cart — Корзина\n/history — История заказов\n/settings — Настройки\n/help — Справка\n/start — Главное меню\n/delivery — Информация о доставке\n/news — Новости\n\nОтветы на часто задаваемые вопросы:"
         },
         "orders": {
-
+            "command": "orders",
+            "reply_button": "Заказы"
         },
         "payment": {
 
         },
-        "registraion": {
+        "registration": {
 
         },
         "selection": {
@@ -39,40 +53,6 @@
         "order_router",
         "payment_router"
     ],
-    "commands": {
-        "catalog": {
-            "text": "Каталог",
-            "command_name": "/catalog"
-        },
-        "cart": {
-            "text": "Корзина",
-            "command_name": "/cart"
-        },
-        "orders": {
-            "text": "Заказы",
-            "command_name": "/orders"
-        },
-        "settings": {
-            "text": "Настройки",
-            "command_name": "/settings"
-        },
-        "help": {
-            "text": "Справка",
-            "command_name": "/help"
-        },
-        "start": {
-            "text": "Главное меню",
-            "command_name": "/start"
-        },
-        "news": {
-            "text": "Новости",
-            "command_name": "/news"
-        },
-        "selection": {
-            "text": "Подбор",
-            "command_name": "/selection"
-        }
-    },
     "service_settings": {
         "bot_token": "DNiADbfASJfEUEKBJEFEESsadffe",
         "support_id": 642500259

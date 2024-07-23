@@ -30,4 +30,4 @@ def names_2_routers(routers_list: list):
     return [routers_table[router_name] for router_name in routers_list]
 
 def gen_commands_list(commands_list: list):
-    return [BotCommand() ]
+    return [BotCommand(command) for command in commands_list ]

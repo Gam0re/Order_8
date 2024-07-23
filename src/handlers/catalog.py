@@ -8,8 +8,10 @@ catalog_router = Router()
 
 from src.dialogs.Catalog.states import Catalog_levels
 
+catalog_config = ... #тут подгрузить bot_config.json["texts"]["catalog"]
+
 # команда старт
-@catalog_router.message(Command('catalog'))
-@catalog_router.message(F.text == 'Каталог')
+@catalog_router.message(Command(catalog_config['command']))
+@catalog_router.message(F.text == catalog_config['reply_button'])
 async def catalog_lvl1(message: types.Message, dialog_manager: DialogManager):
     await dialog_manager.start(Catalog_levels.level_1, mode=StartMode.RESET_STACK)
